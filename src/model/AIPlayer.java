@@ -15,10 +15,15 @@ public class AIPlayer {
     private GameManager model;
 
 
-    public AIPlayer(Controller controller,GameManager model) {
+    public AIPlayer(Controller controller, GameManager model) {
 
         this.controller = controller;
         this.model = model;
     }
 
+    public void nextBestMove() {
+
+        GameBoard board = model.getBoard();
+        //controller.pressButtonAI(x, y);
+    }
 }

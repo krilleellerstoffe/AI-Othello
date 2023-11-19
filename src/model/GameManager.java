@@ -45,6 +45,7 @@ public class GameManager {
     //sets game as over when no more free squares
     public boolean isGameOver() {
 
+        //TODO update
         if(true){
             gameOver = true;
         }
@@ -56,6 +57,10 @@ public class GameManager {
         boolean newHighScore = highScoreKeeper.checkHighScore(numberOfActions);
         controller.gameOver(newHighScore);
     }
+
+    public GameBoard getBoard(){
+        return board;
+    }
     //resets the board and repopulates it with a new array of ships
     public void resetBoard(){
 
@@ -63,7 +68,4 @@ public class GameManager {
         gameOver = false;
     }
 
-    public void setHitSurrounded(int x, int y) {
-        hits[x][y] = false;
-    }
 }

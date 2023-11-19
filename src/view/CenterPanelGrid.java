@@ -40,6 +40,8 @@ public class CenterPanelGrid extends JPanel{
         layout = new GridLayout(size, size);
         setLayout(layout);
         setSize(width,height);
+
+        setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
     }
     private void createComponents() {
 
@@ -48,7 +50,8 @@ public class CenterPanelGrid extends JPanel{
         for (int row = 0; row < buttonGrid.length; row++) {
             for(int column = 0; column < buttonGrid[row].length; column++){
                 buttonGrid[row][column] = new JButton();
-                buttonGrid[row][column].setPreferredSize(new Dimension(50, 50));
+                //buttonGrid[row][column].setPreferredSize(new Dimension(50, 50));
+                buttonGrid[row][column].add(Box.createRigidArea(new Dimension(50,50)));
                 buttonGrid[row][column].setIcon(new ImageIcon("resources/open.png"));
                 int x = row;
                 int y = column;

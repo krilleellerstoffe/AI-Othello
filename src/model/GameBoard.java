@@ -16,15 +16,18 @@ public class GameBoard {
 
     private final Square[][] squares; //an array of squares on the board
 
+    private int emptySquares;
+
 
     public GameBoard(GameManager model, int size) {
 
         this.model = model;
         this.size = size;
         squares = new Square[size][size];
+        emptySquares = size * size;
     }
 
-    //returns square and ship objects, and/or their attributes
+    //returns square and disks, and/or their attributes
     public Square getSquare(int x,int y) {
         return squares[x][y];
     }

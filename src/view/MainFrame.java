@@ -14,7 +14,7 @@ public class MainFrame extends JFrame {
     private final Controller controller;
     private MainPanel panel;
 
-    private final int width = 800;
+    private final int width = 1000;
     private final int height = 600;
 
     private final int size;
@@ -32,7 +32,7 @@ public class MainFrame extends JFrame {
 
         setSize(width, height);
         setLocation(offsetX, offsetY);
-        setTitle("Battleships");
+        setTitle("AI-Othello by Christopher O'Driscoll");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         panel = new MainPanel(this, width, height, size);
@@ -41,19 +41,21 @@ public class MainFrame extends JFrame {
         setVisible(true);
         pack();
     }
-    //ask the player how big the board should be (min 10x10, max 20x20)
+    //ask the player how big the board should be (min 4x4, max 8x8)
     public static int getBoardSize() {
 
-        int choice = 10;
+        int choice = 4;
         try {
-            choice = Integer.parseInt(JOptionPane.showInputDialog("How many squares wide should the board be? (Min 10, Max 20)"));
+            choice = Integer.parseInt(JOptionPane.showInputDialog("How many squares wide should the board be? (Min 4, Max 8)"));
         } catch (Exception e) {
 
         }
-        if (choice > 20) {
-            choice = 20;
-        } else if (choice < 10) {
-            choice = 10;
+        if (choice > 8) {
+            choice = 8;
+            //TODO show error message and confirm board is 8 wide
+        } else if (choice < 4) {
+            choice = 4;
+            //TODO show error message and confirm board is 4 wide
         }
         return choice;
     }

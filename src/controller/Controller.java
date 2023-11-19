@@ -24,7 +24,7 @@ public class Controller {
         aiPlayer = new AIPlayer(this, model);
         updateHighScores();
     }
-    //checks if a ship exists, and it's status. Updates view based on result.(Hit/Miss/Sunk) Finally checks if the game is over.
+    //checks who pressed the button. Updates view based on result. Finally, checks if the game is over.
     public void buttonPressed(int x, int y, boolean player1) {
 
         if (player1) {
@@ -33,6 +33,9 @@ public class Controller {
         else {
             view.changeButtonImageToBlack(x, y);
         }
+        //update score
+        //update gamestate
+        //update available squares for each player
 
     }
     //relays a button press from the AI player
@@ -40,7 +43,6 @@ public class Controller {
 
         view.pressButtonAI(x,y);
     }
-
 
     //if game over, checks for a new high score
     public void gameOver(boolean newHighScore) {
@@ -52,11 +54,13 @@ public class Controller {
             view.betterLuck();
         updateHighScores();
     }
+
     //relays a name to the high score list and updates the list in view
     public void setHSName(String name) {
         model.setNewHighScore(name);
         updateHighScores();
     }
+
     //gets the list of current high scores
     public void updateHighScores(){
 
@@ -71,5 +75,6 @@ public class Controller {
 
     public void letAIPlay() {
         //let the AI search for the best button to press, then press it!
+        aiPlayer.nextBestMove();
     }
 }
