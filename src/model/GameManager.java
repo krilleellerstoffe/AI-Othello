@@ -13,16 +13,10 @@ public class GameManager {
 
     private final Controller controller;
     private final HighScoreKeeper highScoreKeeper;
-    private final GameBoard board;
+    private GameBoard board;
 
     private final int size;
-
-    private final int[] totalShips = new int[5];    //list of ships on board and how many of each
-
-    private int numberOfActions;    //number of guesses made by player
     private boolean gameOver;
-    private final boolean[][] hits; //keeps track of any hits which have not yet sunk a ship
-    private final int[] hitFound = new int[2];   //saves the coordinates of the first hit found in above array
 
     public GameManager(Controller controller, int size){
 
@@ -30,12 +24,11 @@ public class GameManager {
         highScoreKeeper = new HighScoreKeeper(size);
         board = new GameBoard(this, size);
         this.size = size;
-        hits = new boolean[size][size];
     }
     //updates high score list with name and score
     public void setNewHighScore(String name) {
 
-        highScoreKeeper.setNewHighScore(name, numberOfActions);
+        //highScoreKeeper.setNewHighScore(name, numberOfActions);
     }
     //gets a list of high scores
     public String[] getHighScores(){
@@ -54,8 +47,8 @@ public class GameManager {
     //checks if new high score has been made, and ends the game
     public void gameIsOver() {
 
-        boolean newHighScore = highScoreKeeper.checkHighScore(numberOfActions);
-        controller.gameOver(newHighScore);
+        //boolean newHighScore = highScoreKeeper.checkHighScore(numberOfActions);
+        //controller.gameOver(newHighScore);
     }
 
     public GameBoard getBoard(){
@@ -64,7 +57,7 @@ public class GameManager {
     //resets the board and repopulates it with a new array of ships
     public void resetBoard(){
 
-        board.resetBoard();
+        board = new GameBoard(this, size);
         gameOver = false;
     }
 

@@ -5,23 +5,32 @@
 */
 package model;
 
-import javax.swing.*;
 
 public class Square {
 
-    private Disk disk;
-    private ImageIcon diskIcon;
+    private SquareState state;
 
-    public Square(Disk disk) {
-        this.disk = disk;
+    public Square(SquareState state) {
+        this.state = state;
     }
 
-    public Disk getDisk() {
-        return disk;
+    public SquareState getState() {
+        return state;
     }
 
-    public void setDisk(Disk disk) {
-        this.disk = disk;
+    public void setState(SquareState state) {
+        this.state = state;
     }
 
+    public SquareState getOppositeState() {
+        if(state == SquareState.Black) {
+            return SquareState.White;
+        }
+        else if (state == SquareState.White) {
+            return  SquareState.Black;
+        }
+        else {
+            return state;
+        }
+    }
 }

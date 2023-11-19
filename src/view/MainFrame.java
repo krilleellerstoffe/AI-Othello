@@ -6,6 +6,7 @@
 package view;
 
 import controller.Controller;
+import model.GameBoard;
 
 import javax.swing.*;
 
@@ -25,6 +26,7 @@ public class MainFrame extends JFrame {
         this.size = size;
         setupFrame();
     }
+
     private void setupFrame () {
 
         int offsetX = width/4;
@@ -71,16 +73,16 @@ public class MainFrame extends JFrame {
     }
 
     public void changeButtonImageToBlack(int x, int y) {
-        panel.getPnlCenter().changeButtonImageToBlack(x,y);
+        panel.getPnlCenter().changeButtonToBlack(x,y);
     }
     public void changeButtonImageToWhite(int x, int y) {
-        panel.getPnlCenter().changeButtonImageToWhite(x, y);
+        panel.getPnlCenter().changeButtonToWhite(x, y);
     }
     public void changeButtonImageToOpen(int x, int y) {
-        panel.getPnlCenter().changeButtonImageToOpen(x, y);
+        panel.getPnlCenter().changeButtonToOpen(x, y);
     }
     public void changeButtonImageToEmpty(int x, int y) {
-        panel.getPnlCenter().changeButtonImageToEmpty(x, y);
+        panel.getPnlCenter().changeButtonToEmpty(x, y);
     }
 
 
@@ -118,10 +120,22 @@ public class MainFrame extends JFrame {
     public void resetGame() {
 
         controller.resetGame();
-        panel.getPnlCenter().resetGrid();
+        controller.updateBoard();
     }
     public void gameOver() {
         panel.getPnlCenter().disableButtons();
-        panel.getPnlEast().updateLastActionInfo("All ships sunk! Game Over");
+        panel.getPnlEast().updateGameStateInfo("No more legal moves, Game Over!");
+    }
+
+    public void updateBoard(GameBoard board) {
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                panel.getPnlCenter().updateSquare(board.getSquare(i,j), i, j);
+            }
+        }
+    }
+
+    public void enableAIButton(boolean enable) {
+        panel.getPnlWest().enableAIButton(enable);
     }
 }

@@ -5,6 +5,8 @@
 */
 package view;
 
+import model.Square;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -22,7 +24,7 @@ public class CenterPanelGrid extends JPanel{
 
     private final int height;
     private final int width;
-
+    private final int buttonSize;
     private final int size;
 
     private JButton[][] buttonGrid; //array of buttons which represent each square on board
@@ -33,6 +35,7 @@ public class CenterPanelGrid extends JPanel{
         this.view = view;
         this.width = width;
         this.height = height;
+        this.buttonSize = width/6;
         this.size = size;
         buttonEnabled = new boolean[size][size];
         setupPanel();
@@ -54,9 +57,10 @@ public class CenterPanelGrid extends JPanel{
         for (int row = 0; row < buttonGrid.length; row++) {
             for(int column = 0; column < buttonGrid[row].length; column++){
                 buttonGrid[row][column] = new JButton();
-                buttonGrid[row][column].setPreferredSize(new Dimension(50, 50));
-                buttonGrid[row][column].add(Box.createRigidArea(new Dimension(50,50)));
-                buttonGrid[row][column].setIcon(resizeImage("resources/empty.png", 50));
+                buttonGrid[row][column].setPreferredSize(new Dimension(buttonSize, buttonSize));
+                buttonGrid[row][column].add(Box.createRigidArea(new Dimension(buttonSize,buttonSize)));
+                buttonGrid[row][column].setIcon(resizeImage("resources/empty.png", buttonSize));
+                buttonEnabled[row][column] = false;
                 int x = row;
                 int y = column;
                 buttonGrid[row][column].addActionListener(new ActionListener() {
@@ -82,52 +86,47 @@ public class CenterPanelGrid extends JPanel{
     }
     //if the button hasn't already been pressed, sets a guess in motion
     public void buttonPressed(int x, int y, boolean player1){
-
         //if valid move, allow button to be pressed
-        if(!buttonEnabled[x][y]) {
-            buttonEnabled[x][y] = true;
-            view.CenterButtonPressed(x, y, player1);
-        }
+        if(!buttonEnabled[x][y]) return;
+        view.CenterButtonPressed(x, y, player1);
     }
     //change the image on a button to represent it's current state
-    public void changeButtonImageToBlack(int x, int y) {
+    public void changeButtonToBlack(int x, int y) {
 
-        buttonGrid[x][y].setIcon(resizeImage("resources/black.png", 50));
+        buttonGrid[x][y].setIcon(resizeImage("resources/black.png", buttonSize));
+        buttonEnabled[x][y] = false;
     }
-    public void changeButtonImageToWhite(int x, int y){
+    public void changeButtonToWhite(int x, int y){
 
-        buttonGrid[x][y].setIcon(resizeImage("resources/white.png", 50));
+        buttonGrid[x][y].setIcon(resizeImage("resources/white.png", buttonSize));
+        buttonEnabled[x][y] = false;
     }
-    public void changeButtonImageToOpen(int x, int y) {
+    public void changeButtonToOpen(int x, int y) {
 
-        buttonGrid[x][y].setIcon(resizeImage("resources/open.png", 50));
-    }
-    public void changeButtonImageToEmpty(int x, int y) {
-
-        buttonGrid[x][y].setIcon(resizeImage("resources/empty.png", 50));
-    }
-    //resets all the buttons
-    public void resetGrid(){
-
-        for (int i = 0; i<size; i++){
-            for(int j = 0; j<size; j++){
-                buttonGrid[i][j].setIcon(resizeImage("resources/empty.png", 50));
-                buttonEnabled[i][j] = false;
-            }
-        }
-    }
-
-    private void enableButton(int x, int y) {
+        buttonGrid[x][y].setIcon(resizeImage("resources/open.png", buttonSize));
         buttonEnabled[x][y] = true;
-        changeButtonImageToOpen(x, y);
+    }
+    public void changeButtonToEmpty(int x, int y) {
+
+        buttonGrid[x][y].setIcon(resizeImage("resources/empty.png", buttonSize));
+        buttonEnabled[x][y] = false;
     }
 
     //disables all the buttons in case of game over state
     public void disableButtons() {
         for (int i = 0; i<size; i++){
             for(int j = 0; j<size; j++){
-                buttonEnabled[i][j] = true;
+                buttonEnabled[i][j] = false;
             }
+        }
+    }
+
+    public void updateSquare(Square square, int x, int y) {
+        switch (square.getState()) {
+            case Black -> changeButtonToBlack(x, y);
+            case White -> changeButtonToWhite(x,y);
+            case Open -> changeButtonToOpen(x, y);
+            default -> changeButtonToEmpty(x,y);
         }
     }
 }

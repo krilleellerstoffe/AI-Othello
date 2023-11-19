@@ -45,6 +45,7 @@ public class WestPanel extends JPanel {
                 enableAIButton(false);
             }
         });
+        btnAIGuess.setEnabled(false);
         add(btnAIGuess);
         add(Box.createRigidArea(new Dimension(0, 10)));
 

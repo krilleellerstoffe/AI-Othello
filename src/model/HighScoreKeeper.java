@@ -24,6 +24,7 @@ public class HighScoreKeeper {
         }
     }
     //organises the high score list by score (ascending)(bubblesort)
+    //TODO reverse order of list
     public void sortHighScores(){
         boolean changeMade;
         int sorted = 1;
@@ -52,9 +53,9 @@ public class HighScoreKeeper {
         return newHighScore;
     }
     //inserts a new high score and reorganises them
-    public void setNewHighScore(String name, int guesses){
+    public void setNewHighScore(String name, int score){
 
-        highScores[9] = guesses;
+        highScores[9] = score;
         highScoresNames[9] = name;
         sortHighScores();
     }

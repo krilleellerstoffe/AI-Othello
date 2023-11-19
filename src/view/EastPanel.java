@@ -18,8 +18,9 @@ public class EastPanel extends JPanel {
     private final int width;
     private final int height;
 
-    private JLabel lblLastAction;
+    private JLabel lblGameState;
     private JButton btnAIGuess;
+
     private JButton btnResetGame;
     private JButton btnNewRules; //if user wants to change the size of the board
 
@@ -39,8 +40,8 @@ public class EastPanel extends JPanel {
 
         setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 
-        lblLastAction = new JLabel();
-        add(lblLastAction);
+        lblGameState = new JLabel();
+        add(lblGameState);
 
         btnNewRules = new JButton("Change board size");
         btnNewRules.addActionListener(new ActionListener() {
@@ -53,9 +54,9 @@ public class EastPanel extends JPanel {
     }
 
     //displays the result of previous guess
-    public void updateLastActionInfo(String text){
+    public void updateGameStateInfo(String text){
 
-        lblLastAction.setText(text);
+        lblGameState.setText(text);
     }
 
 }

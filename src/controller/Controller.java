@@ -7,6 +7,7 @@ package controller;
 
 import model.AIPlayer;
 import model.GameManager;
+import model.SquareState;
 import view.MainFrame;
 
 public class Controller {
@@ -23,20 +24,32 @@ public class Controller {
         view = new MainFrame(this, size);
         aiPlayer = new AIPlayer(this, model);
         updateHighScores();
+        updateBoard();
+
     }
     //checks who pressed the button. Updates view based on result. Finally, checks if the game is over.
     public void buttonPressed(int x, int y, boolean player1) {
 
         if (player1) {
-            view.changeButtonImageToBlack(x, y);
+            model.getBoard().setSquare(x, y, SquareState.Black);
+            model.getBoard().updateOpenSquares(SquareState.White);
+            view.enableAIButton(true);
         }
         else {
-            view.changeButtonImageToWhite(x, y);
+            model.getBoard().setSquare(x, y, SquareState.White);
+            model.getBoard().updateOpenSquares(SquareState.Black);
+            view.enableAIButton(false);
         }
+
+        view.updateBoard(model.getBoard());
         //update score
         //update gamestate
         //update available squares for each player
 
+    }
+
+    public void updateBoard() {
+        view.updateBoard(model.getBoard());
     }
     //relays a button press from the AI player
     public void pressButtonAI(int x, int y){
