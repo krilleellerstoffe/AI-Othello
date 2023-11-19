@@ -28,10 +28,10 @@ public class Controller {
     public void buttonPressed(int x, int y, boolean player1) {
 
         if (player1) {
-            view.changeButtonImageToWhite(x, y);
+            view.changeButtonImageToBlack(x, y);
         }
         else {
-            view.changeButtonImageToBlack(x, y);
+            view.changeButtonImageToWhite(x, y);
         }
         //update score
         //update gamestate

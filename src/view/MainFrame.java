@@ -79,6 +79,9 @@ public class MainFrame extends JFrame {
     public void changeButtonImageToOpen(int x, int y) {
         panel.getPnlCenter().changeButtonImageToOpen(x, y);
     }
+    public void changeButtonImageToEmpty(int x, int y) {
+        panel.getPnlCenter().changeButtonImageToEmpty(x, y);
+    }
 
 
     public int getRows() {

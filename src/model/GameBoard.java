@@ -16,7 +16,8 @@ public class GameBoard {
 
     private final Square[][] squares; //an array of squares on the board
 
-    private int emptySquares;
+    private int whiteScore;
+    private int blackScore;
 
 
     public GameBoard(GameManager model, int size) {
@@ -24,16 +25,17 @@ public class GameBoard {
         this.model = model;
         this.size = size;
         squares = new Square[size][size];
-        emptySquares = size * size;
     }
 
-    //returns square and disks, and/or their attributes
+    //returns square and disk
     public Square getSquare(int x,int y) {
         return squares[x][y];
     }
+
     public Disk getDisk(int x, int y) {
         return squares[x][y].getDisk();
     }
+
     //Clear squares of all disks
     public void resetBoard(){
         for(int i = 0; i<size; i++){
@@ -41,5 +43,21 @@ public class GameBoard {
                 squares[i][j] = null;
             }
         }
+    }
+
+    public int getWhiteScore() {
+        return whiteScore;
+    }
+
+    public void setWhiteScore(int whiteScore) {
+        this.whiteScore = whiteScore;
+    }
+
+    public int getBlackScore() {
+        return blackScore;
+    }
+
+    public void setBlackScore(int blackScore) {
+        this.blackScore = blackScore;
     }
 }

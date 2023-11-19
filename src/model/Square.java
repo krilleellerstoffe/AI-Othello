@@ -12,9 +12,8 @@ public class Square {
     private Disk disk;
     private ImageIcon diskIcon;
 
-    public Square(Disk disk, ImageIcon diskIcon) {
+    public Square(Disk disk) {
         this.disk = disk;
-        this.diskIcon = diskIcon;
     }
 
     public Disk getDisk() {
@@ -24,14 +23,5 @@ public class Square {
     public void setDisk(Disk disk) {
         this.disk = disk;
     }
-
-    public ImageIcon getDiskIcon() {
-        return diskIcon;
-    }
-
-    public void setDiskIcon(ImageIcon diskIcon) {
-        this.diskIcon = diskIcon;
-    }
-
 
 }
