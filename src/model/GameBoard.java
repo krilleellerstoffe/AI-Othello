@@ -9,9 +9,9 @@ public class GameBoard {
 
     private GameManager model;
 
-    private final int size;  //height of game board
+    private int size;  //height of game board
 
-    private final Square[][] squares; //an array of squares on the board
+    private Square[][] squares; //an array of squares on the board
 
 
 
@@ -28,6 +28,34 @@ public class GameBoard {
         this.size = board.size;
         this.squares = board.squares;
     }
+
+    public GameBoard() {
+
+        squares = new Square[0][];
+        size = 0;
+    }
+
+
+    public static GameBoard deepCopy(GameBoard currentBoard) {
+        GameBoard newBoard = new GameBoard();
+        Square[][] originalSquares = currentBoard.getSquares();
+        int size = currentBoard.getSize();
+        Square[][] copiedSquares = new Square[size][size];
+
+        // Perform a deep copy of each Square object
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                Square originalSquare = originalSquares[i][j];
+                // Assuming Square has a copy constructor or a method to create a deep copy
+                copiedSquares[i][j] = new Square(originalSquare); // Create a new Square with copied state
+            }
+        }
+
+        newBoard.setSquares(copiedSquares);
+        newBoard.setSize(size);
+        return newBoard;
+    }
+
 
     private void setupStartingBoard() {
         for (int i = 0; i < size; i++) {
@@ -205,5 +233,16 @@ public class GameBoard {
         else {
             return direction;
         }
+    }
+
+    public void setSquares(Square[][] squares) {
+        this.squares = squares;
+    }
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    public int getSize() {
+        return size;
     }
 }

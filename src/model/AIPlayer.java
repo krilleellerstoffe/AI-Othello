@@ -22,13 +22,12 @@ public class AIPlayer {
     }
 
     public void nextBestMove() {
-        Controller controllerCopy = new Controller(controller);
-        int[] nextBestMove = findBestMoves(controllerCopy);
+        int[] nextBestMove = findBestMoves(controller.getModel().getBoard());
         //controller.pressButtonAI(x, y);
     }
 
-    private int[] findBestMoves(Controller controllerCopy) {
-        GameBoard board = controllerCopy.getModel().getBoard();
+    private int[] findBestMoves(GameBoard currentBoard) {
+        GameBoard board = GameBoard.deepCopy(currentBoard);
         TreeNode root = GameTree.buildTree(board, 3);
         int[] bestMove = GameTree.findBestMove(root, 2).getLastMove();
         System.out.println("Best move is " + bestMove[0] + ", " + bestMove[1]);

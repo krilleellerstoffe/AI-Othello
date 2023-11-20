@@ -31,7 +31,7 @@ public class GameTree {
         for (int i = 0; i < currentBoard.getSquares().length; i++) {
             for (int j = 0; j < currentBoard.getSquares().length; j++) {
                 if (currentBoard.getSquares()[i][j].getState() == SquareState.Open) {
-                    GameBoard newBoard = new GameBoard(currentBoard); // Make a copy of the current board
+                    GameBoard newBoard = GameBoard.deepCopy(currentBoard); // Make a copy of the current board
                     placePiece(newBoard, i, j, maximizingPlayer);
                     System.out.println("open square, making new board");
                     TreeNode childNode = new TreeNode(newBoard);
@@ -43,6 +43,8 @@ public class GameTree {
             }
         }
     }
+
+
 
     private static void placePiece(GameBoard newBoard, int i, int j, boolean maximizingPlayer) {
 

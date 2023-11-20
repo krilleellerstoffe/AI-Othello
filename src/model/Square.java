@@ -14,6 +14,10 @@ public class Square {
         this.state = state;
     }
 
+    public Square(Square originalSquare) {
+        setState(originalSquare.getState());
+    }
+
     public SquareState getState() {
         return state;
     }
