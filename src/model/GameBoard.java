@@ -13,8 +13,6 @@ public class GameBoard {
 
     private final Square[][] squares; //an array of squares on the board
 
-    private int whiteScore;
-    private int blackScore;
 
 
     public GameBoard(GameManager model, int size) {
@@ -23,6 +21,12 @@ public class GameBoard {
         this.size = size;
         squares = new Square[size][size];
         setupStartingBoard();
+    }
+
+    public GameBoard(GameBoard board) {
+        this.model = board.model;
+        this.size = board.size;
+        this.squares = board.squares;
     }
 
     private void setupStartingBoard() {
@@ -50,22 +54,42 @@ public class GameBoard {
         squares[x][y] = new Square(state);
     }
 
+    public int getValidMoves() {
+        int validMoves = 0;
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (squares[i][j].getState() == SquareState.Open) {
+                    validMoves++;
+                }
+            }
+        }
+        return validMoves;
+    }
 
     public int getWhiteScore() {
+        int whiteScore = 0;
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (squares[i][j].getState() == SquareState.White) {
+                    whiteScore++;
+                }
+            }
+        }
         return whiteScore;
     }
 
-    public void setWhiteScore(int whiteScore) {
-        this.whiteScore = whiteScore;
-    }
-
     public int getBlackScore() {
+        int blackScore = 0;
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (squares[i][j].getState() == SquareState.Black) {
+                    blackScore++;
+                }
+            }
+        }
         return blackScore;
     }
 
-    public void setBlackScore(int blackScore) {
-        this.blackScore = blackScore;
-    }
 
     // check for valid moves
     public int updateOpenSquares(SquareState stateToLookFor) {

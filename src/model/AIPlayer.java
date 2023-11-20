@@ -22,8 +22,16 @@ public class AIPlayer {
     }
 
     public void nextBestMove() {
-
-        GameBoard board = model.getBoard();
+        Controller controllerCopy = new Controller(controller);
+        int[] nextBestMove = findBestMoves(controllerCopy);
         //controller.pressButtonAI(x, y);
+    }
+
+    private int[] findBestMoves(Controller controllerCopy) {
+        GameBoard board = controllerCopy.getModel().getBoard();
+        TreeNode root = GameTree.buildTree(board, 3);
+        int[] bestMove = GameTree.findBestMove(root, 2).getLastMove();
+        System.out.println("Best move is " + bestMove[0] + ", " + bestMove[1]);
+        return bestMove;
     }
 }

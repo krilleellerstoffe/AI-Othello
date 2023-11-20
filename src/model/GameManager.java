@@ -25,6 +25,15 @@ public class GameManager {
         board = new GameBoard(this, size);
         this.size = size;
     }
+
+    public GameManager(GameManager model) {
+        this.controller = model.controller;
+        this.highScoreKeeper = null;
+        this.board = new GameBoard(model.board);
+        this.size = model.size;
+        this.gameOver = model.gameOver;
+    }
+
     //updates high score list with name and score
     public void setNewHighScore(String name) {
 

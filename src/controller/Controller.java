@@ -27,6 +27,14 @@ public class Controller {
         updateBoard();
 
     }
+
+    public Controller(Controller controller) {
+        this.model = new GameManager(controller.model);
+        this.view = null;
+        this.aiPlayer = null;
+        this.size = controller.size;
+    }
+
     //checks who pressed the button. Updates view based on result. Finally, checks if the game is over.
     public void buttonPressed(int x, int y, boolean player1) {
         int validMoves = 0;
@@ -98,5 +106,9 @@ public class Controller {
     public void letAIPlay() {
         //let the AI search for the best button to press, then press it!
         aiPlayer.nextBestMove();
+    }
+
+    public GameManager getModel() {
+        return model;
     }
 }
