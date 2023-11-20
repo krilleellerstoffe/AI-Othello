@@ -167,13 +167,17 @@ public class GameBoard {
                 //check still in bounds of the game board
                 while(inBounds(k+xDirection, l+yDirection)) {
                     //while still opposite colour, continue to expand search
-                    if(squares[k+xDirection][l+yDirection].getState() == oppositeColour) {
+                    if(squares[k+xDirection][l+yDirection].getState() == SquareState.Open) {
+                        break;
+                    }
+                    else if (squares[k+xDirection][l+yDirection].getState() == SquareState.Empty) {
+                        break;
                     }
                     //if same colour found in direction after that, then move is valid
                     else if(squares[k+xDirection][l+yDirection].getOppositeState() == oppositeColour) {
                         //if flipping to be done, do it now
                         if(flip) {
-                            if (!squares[k+xDirection][l+yDirection].isFlipped()) {
+                            if (!squares[k][l].isFlipped()) {
                                 flipSquares(k, l, xDirection, yDirection);
                             }
                         }
@@ -183,6 +187,7 @@ public class GameBoard {
                     //update directions
                     xDirection = expandDirection(xDirection);
                     yDirection = expandDirection(yDirection);
+
                 }
             }
         }
@@ -200,14 +205,14 @@ public class GameBoard {
     }
 
     public void flipSquares(int k, int l, int xDirection, int yDirection) {
-        System.out.println("flipping squares back from "+ ((char) ('A' + (k+xDirection))) + " "+ (l+yDirection));
+        System.out.println("flipping squares back from "+ (char) ('A' + (k+xDirection)) + " "+ (l+yDirection));
         //turn around and flip colours
         do {
             //create local variables to prevent loop exiting prematurely
             int newXDirection = reverseDirection(xDirection);
             int newYDirection = reverseDirection(yDirection);
             //flip square to desired colour
-            System.out.println("flipping " + ((char) ('A' + (k+newXDirection))) + " "+ (l+newYDirection));
+            System.out.println("flipping " + (char) ('A' + (k+newXDirection)) + " "+ (l+newYDirection));
             squares[k + newXDirection][l + newYDirection].flipColour();
             //now update variables for loop condition
             xDirection = newXDirection;

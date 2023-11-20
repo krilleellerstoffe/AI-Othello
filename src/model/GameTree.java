@@ -1,6 +1,9 @@
 package model;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GameTree {
 
     public static TreeNode buildTree(GameBoard initialBoard, int depth) {
@@ -24,7 +27,7 @@ public class GameTree {
     }
     private static void populateTree(TreeNode node, int depth, boolean maximizingPlayer) {
         if (depth == 0 || gameIsOver(node)) {
-            System.out.println("Max depth reached");
+            System.out.println("Max depth reached, white score: " + evaluate(node));
             return;
         }
         GameBoard currentBoard = node.getBoard();
@@ -92,5 +95,36 @@ public class GameTree {
         //game over if no more moves possible
         System.out.println("Valid moves for this node = " + node.getBoard().getValidMoves());
         return node.getBoard().getValidMoves() == 0;
+    }
+
+    public static class TreeNode {
+        private GameBoard board;
+        private List<TreeNode> children;
+        private int[] lastMove = new int[2];
+
+        public TreeNode(GameBoard board) {
+            this.board = board;
+            this.children = new ArrayList<>();
+        }
+
+        public GameBoard getBoard() {
+            return board;
+        }
+
+        public List<TreeNode> getChildren() {
+            return children;
+        }
+
+        public void addChild(TreeNode childNode) {
+            children.add(childNode);
+        }
+
+        public int[] getLastMove() {
+            return lastMove;
+        }
+
+        public void setLastMove(int[] lastMove) {
+            this.lastMove = lastMove;
+        }
     }
 }

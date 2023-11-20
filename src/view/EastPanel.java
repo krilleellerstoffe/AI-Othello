@@ -43,6 +43,7 @@ public class EastPanel extends JPanel {
         lblGameState = new JLabel();
         add(lblGameState);
 
+        //TODO Display game state, scores, latest search results, etc
         btnNewRules = new JButton("Change board size");
         btnNewRules.addActionListener(new ActionListener() {
             @Override
