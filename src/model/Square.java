@@ -9,6 +9,7 @@ package model;
 public class Square {
 
     private SquareState state;
+    private boolean flipped;
 
     public Square(SquareState state) {
         this.state = state;
@@ -40,5 +41,14 @@ public class Square {
 
     public void flipColour() {
         setState(getOppositeState());
+        setFlipped(true);
+    }
+
+    public boolean isFlipped() {
+        return flipped;
+    }
+
+    public void setFlipped(boolean flipped) {
+        this.flipped = flipped;
     }
 }

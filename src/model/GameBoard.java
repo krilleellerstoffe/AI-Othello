@@ -124,6 +124,7 @@ public class GameBoard {
         int validMoves = 0;
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
+                squares[i][j].setFlipped(false);
                 //first reset all current valid moves (for opposite player)
                 if(squares[i][j].getState() == SquareState.Open) {
                     squares[i][j].setState(SquareState.Empty);
@@ -167,14 +168,14 @@ public class GameBoard {
                 while(inBounds(k+xDirection, l+yDirection)) {
                     //while still opposite colour, continue to expand search
                     if(squares[k+xDirection][l+yDirection].getState() == oppositeColour) {
-                        System.out.println("opposite colour found at " + (k+xDirection) + ", "+(l+yDirection));
                     }
                     //if same colour found in direction after that, then move is valid
                     else if(squares[k+xDirection][l+yDirection].getOppositeState() == oppositeColour) {
                         //if flipping to be done, do it now
-                        System.out.println("same colour found at " + (k+xDirection) + ", "+(l+yDirection) +"flipping = " + flip);
                         if(flip) {
-                            flipSquares(k, l, xDirection, yDirection);
+                            if (!squares[k+xDirection][l+yDirection].isFlipped()) {
+                                flipSquares(k, l, xDirection, yDirection);
+                            }
                         }
                         //update valid condition
                         validMove = true;
@@ -199,13 +200,14 @@ public class GameBoard {
     }
 
     public void flipSquares(int k, int l, int xDirection, int yDirection) {
-        System.out.println("flipping squares back from " + (k+xDirection) + ", "+(l+yDirection));
+        System.out.println("flipping squares back from "+ ((char) ('A' + (k+xDirection))) + " "+ (l+yDirection));
         //turn around and flip colours
         do {
             //create local variables to prevent loop exiting prematurely
             int newXDirection = reverseDirection(xDirection);
             int newYDirection = reverseDirection(yDirection);
             //flip square to desired colour
+            System.out.println("flipping " + ((char) ('A' + (k+newXDirection))) + " "+ (l+newYDirection));
             squares[k + newXDirection][l + newYDirection].flipColour();
             //now update variables for loop condition
             xDirection = newXDirection;
