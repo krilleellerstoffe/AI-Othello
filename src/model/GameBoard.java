@@ -68,7 +68,8 @@ public class GameBoard {
     }
 
     // check for valid moves
-    public void updateOpenSquares(SquareState stateToLookFor) {
+    public int updateOpenSquares(SquareState stateToLookFor) {
+        int validMoves = 0;
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 //first reset all current valid moves (for opposite player)
@@ -80,63 +81,59 @@ public class GameBoard {
                     continue;
                 }
                 //split to recursive method to check if valid move possible
-                if (validMove(i, j, stateToLookFor)) {
+                if (validMove(i, j, stateToLookFor, false)) {
                     squares[i][j].setState(SquareState.Open);
+                    validMoves++;
                 }
 
             }
         }
+        return validMoves;
     }
     //returns true if valid move possible
-    private boolean validMove(int i, int j, SquareState stateToLookFor) {
-        //check if any of its neighbours are opposite colour
-        System.out.println("checking valid moves for " +i+ ", " +j);
+    public boolean validMove(int i, int j, SquareState oppositeColour, boolean flip) {
+        boolean validMove = false;
+        //iterate through neighbours
         for (int k = i-1; k <= i+1; k++) {
             for (int l = j-1; l <= j+1; l++) {
                 //skip invalid squares
                 if (!inBounds(k, l)) {
-                    System.out.println("out of bounds " +k+ ", " +l);
                     continue;
                 }
                 //skip own square
                 if(k == i && l == j) {
-                    System.out.println("own square " +k+ ", " +l);
                     continue;
                 }
-                if(squares[k][l].getState() != stateToLookFor) {
-                    System.out.println("neighbour not opposite colour at " +k+ ", " +l+ " , continuing");
+                //skip if neighbour not opposite colour
+                if(squares[k][l].getState() != oppositeColour) {
                     continue;
                 }
-
-                    System.out.println("found opposite colour at " +k+ ", " +l+ " expanding");
-                    //found possible valid move, expand in same direction
-                    int xDirection = (k-i);
-                    int yDirection = (l-j);
-                    //check still in bounds of the game board
-                    while(inBounds(k+xDirection, l+yDirection)) {
-                        System.out.println(" checking " +(k+xDirection)+ ", " +(l+yDirection));
-                        //while still opposite colour, continue to expand search
-                        if(squares[k+xDirection][l+yDirection].getState() == stateToLookFor) {
-                            System.out.println(stateToLookFor + " found, expanding ");
-                            xDirection += xDirection;
-                            yDirection += yDirection;
-                        }
-                        //if same colour found in direction after that, then move is valid
-                        else if(squares[k+xDirection][l+yDirection].getOppositeState() == stateToLookFor) {
-                            //no need to check further if valid move found
-                            System.out.println("valid move at " + i + ", " + j);
-                            return true;
-                        }
-                        else {
-                            System.out.println("no valid move at " + i +", "+ j);
-                            return false;
-                        }
+                //found possible valid move, expand in same direction
+                int xDirection = (k-i);
+                int yDirection = (l-j);
+                //check still in bounds of the game board
+                while(inBounds(k+xDirection, l+yDirection)) {
+                    //while still opposite colour, continue to expand search
+                    if(squares[k+xDirection][l+yDirection].getState() == oppositeColour) {
+                        System.out.println("opposite colour found at " + (k+xDirection) + ", "+(l+yDirection));
                     }
+                    //if same colour found in direction after that, then move is valid
+                    else if(squares[k+xDirection][l+yDirection].getOppositeState() == oppositeColour) {
+                        //if flipping to be done, do it now
+                        System.out.println("same colour found at " + (k+xDirection) + ", "+(l+yDirection) +"flipping = " + flip);
+                        if(flip) {
+                            flipSquares(k, l, xDirection, yDirection);
+                        }
+                        //update valid condition
+                        validMove = true;
+                    }
+                    //update directions
+                    xDirection = expandDirection(xDirection);
+                    yDirection = expandDirection(yDirection);
                 }
-
             }
-
-        return false;
+        }
+        return validMove;
     }
 
     private boolean inBounds(int x, int y) {
@@ -149,4 +146,40 @@ public class GameBoard {
         return true;
     }
 
+    public void flipSquares(int k, int l, int xDirection, int yDirection) {
+        System.out.println("flipping squares back from " + (k+xDirection) + ", "+(l+yDirection));
+        //turn around and flip colours
+        do {
+            //create local variables to prevent loop exiting prematurely
+            int newXDirection = reverseDirection(xDirection);
+            int newYDirection = reverseDirection(yDirection);
+            //flip square to desired colour
+            squares[k + newXDirection][l + newYDirection].flipColour();
+            //now update variables for loop condition
+            xDirection = newXDirection;
+            yDirection = newYDirection;
+        } while (!(xDirection == 0 && yDirection == 0));
+    }
+    private int expandDirection(int direction) {
+        if (direction < 0) {
+            return direction-1;
+        }
+        else if (direction > 0) {
+            return direction+1;
+        }
+        else {
+            return direction;
+        }
+    }
+    private int reverseDirection(int direction) {
+        if (direction < 0) {
+            return direction+1;
+        }
+        else if (direction > 0) {
+            return direction-1;
+        }
+        else {
+            return direction;
+        }
+    }
 }

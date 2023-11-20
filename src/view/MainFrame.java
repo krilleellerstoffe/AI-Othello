@@ -138,4 +138,8 @@ public class MainFrame extends JFrame {
     public void enableAIButton(boolean enable) {
         panel.getPnlWest().enableAIButton(enable);
     }
+
+    public void resetTestPlayer() {
+        panel.getPnlCenter().testBoolean = true;
+    }
 }

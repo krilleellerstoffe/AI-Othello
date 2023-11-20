@@ -29,19 +29,27 @@ public class Controller {
     }
     //checks who pressed the button. Updates view based on result. Finally, checks if the game is over.
     public void buttonPressed(int x, int y, boolean player1) {
-
+        int validMoves = 0;
         if (player1) {
+            //first turn selected square to black
             model.getBoard().setSquare(x, y, SquareState.Black);
-            model.getBoard().updateOpenSquares(SquareState.White);
+            //search for squares to flip
+            model.getBoard().validMove(x, y, SquareState.White, true);
+            //update open squares for next player
+            validMoves =model.getBoard().updateOpenSquares(SquareState.Black);
             view.enableAIButton(true);
         }
         else {
+            //first turn selected square to black
             model.getBoard().setSquare(x, y, SquareState.White);
-            model.getBoard().updateOpenSquares(SquareState.Black);
+            //search for squares to flip
+            model.getBoard().validMove(x, y, SquareState.Black, true);
+            //update open squares for next player
+            validMoves = model.getBoard().updateOpenSquares(SquareState.White);
             view.enableAIButton(false);
         }
-
-        view.updateBoard(model.getBoard());
+        System.out.println("updating board");
+        updateBoard();
         //update score
         //update gamestate
         //update available squares for each player
@@ -83,6 +91,7 @@ public class Controller {
     public void resetGame() {
 
         model.resetBoard();
+        view.resetTestPlayer();
         aiPlayer = new AIPlayer(this, model);
     }
 

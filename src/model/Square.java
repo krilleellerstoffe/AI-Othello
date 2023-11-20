@@ -33,4 +33,8 @@ public class Square {
             return state;
         }
     }
+
+    public void flipColour() {
+        setState(getOppositeState());
+    }
 }

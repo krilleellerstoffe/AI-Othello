@@ -84,11 +84,14 @@ public class CenterPanelGrid extends JPanel{
         Image resizedImage = img.getScaledInstance(width, width, Image.SCALE_SMOOTH);
         return new ImageIcon(resizedImage);
     }
+    public boolean testBoolean = true;
     //if the button hasn't already been pressed, sets a guess in motion
     public void buttonPressed(int x, int y, boolean player1){
         //if valid move, allow button to be pressed
-        if(!buttonEnabled[x][y]) return;
-        view.CenterButtonPressed(x, y, player1);
+        if(!buttonEnabled[x][y]) return; {
+            view.CenterButtonPressed(x, y, testBoolean);
+            testBoolean = !testBoolean;
+        }
     }
     //change the image on a button to represent it's current state
     public void changeButtonToBlack(int x, int y) {
