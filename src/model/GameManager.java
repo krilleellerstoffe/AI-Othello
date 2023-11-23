@@ -28,7 +28,7 @@ public class GameManager {
 
     public GameManager(GameManager model) {
         this.controller = model.controller;
-        this.highScoreKeeper = null;
+        this.highScoreKeeper = new HighScoreKeeper(model.size);
         this.board = new GameBoard(model.board);
         this.size = model.size;
         this.gameOver = model.gameOver;
@@ -37,7 +37,7 @@ public class GameManager {
     //updates high score list with name and score
     public void setNewHighScore(String name) {
 
-        //highScoreKeeper.setNewHighScore(name, numberOfActions);
+        highScoreKeeper.setNewHighScore(name, board.getBlackScore());
     }
     //gets a list of high scores
     public String[] getHighScores(){
@@ -48,7 +48,7 @@ public class GameManager {
     public boolean isGameOver() {
 
         //TODO update
-        if(true){
+        if(board.getValidMoves() <= 0){
             gameOver = true;
         }
         return gameOver;
@@ -56,8 +56,9 @@ public class GameManager {
     //checks if new high score has been made, and ends the game
     public void gameIsOver() {
 
-        //boolean newHighScore = highScoreKeeper.checkHighScore(numberOfActions);
-        //controller.gameOver(newHighScore);
+        boolean newHighScore = highScoreKeeper.checkHighScore(board.getBlackScore());
+        int scoreDiff = board.getBlackScore() - board.getWhiteScore();
+        controller.gameOver(newHighScore, scoreDiff);
     }
 
     public GameBoard getBoard(){

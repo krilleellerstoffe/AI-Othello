@@ -35,7 +35,7 @@ public class CenterPanelGrid extends JPanel{
         this.view = view;
         this.width = width;
         this.height = height;
-        this.buttonSize = width/6;
+        this.buttonSize = width/7;
         this.size = size;
         buttonEnabled = new boolean[size][size];
         setupPanel();
@@ -44,7 +44,7 @@ public class CenterPanelGrid extends JPanel{
 
     private void setupPanel() {
 
-        layout = new GridLayout(size, size);
+        layout = new GridLayout(0, size+1);
         setLayout(layout);
         setSize(width,height);
 
@@ -52,9 +52,17 @@ public class CenterPanelGrid extends JPanel{
     }
     private void createComponents() {
 
+        // Add an empty label to occupy the top-left cell
+        add(new JLabel());
+        for (int i = 0; i < size; i++) {
+            JLabel colLabel = new JLabel("" + i, SwingConstants.CENTER);
+            add(colLabel);
+        }
         buttonGrid = new JButton[size][size];
 
         for (int row = 0; row < buttonGrid.length; row++) {
+            JLabel rowLabel = new JLabel(Character.toString((char) ('A' + row)), SwingConstants.CENTER);
+            add(rowLabel);
             for(int column = 0; column < buttonGrid[row].length; column++){
                 buttonGrid[row][column] = new JButton();
                 buttonGrid[row][column].setPreferredSize(new Dimension(buttonSize, buttonSize));
@@ -71,6 +79,17 @@ public class CenterPanelGrid extends JPanel{
                 });
                 add(buttonGrid[row][column]);
             }
+        }
+        // Create labels for row numbers and column numbers
+        JPanel rowPanel = new JPanel(new GridLayout(6, 1));
+        JPanel colPanel = new JPanel(new GridLayout(1, 6));
+
+        for (int i = 0; i < 6; i++) {
+            JLabel rowLabel = new JLabel("" + i, SwingConstants.CENTER);
+            JLabel colLabel = new JLabel("" + i, SwingConstants.CENTER);
+
+            rowPanel.add(rowLabel);
+            colPanel.add(colLabel);
         }
     }
     // Method to resize the image

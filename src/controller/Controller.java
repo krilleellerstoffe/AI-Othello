@@ -22,7 +22,7 @@ public class Controller {
         size = MainFrame.getBoardSize();    //asks the user for a board size, uses this size to create components
         model = new GameManager(this, size);
         view = new MainFrame(this, size);
-        aiPlayer = new AIPlayer(this, model);
+        aiPlayer = new AIPlayer(this);
         updateHighScores();
         updateBoard();
 
@@ -58,6 +58,9 @@ public class Controller {
         }
         System.out.println("updating board");
         updateBoard();
+        if (model.isGameOver()) {
+            model.gameIsOver();
+        }
         //update score
         //update gamestate
         //update available squares for each player
@@ -67,6 +70,7 @@ public class Controller {
     public void updateBoard() {
         view.updateBoard(model.getBoard());
     }
+
     //relays a button press from the AI player
     public void pressButtonAI(int x, int y){
 
@@ -74,13 +78,16 @@ public class Controller {
     }
 
     //if game over, checks for a new high score
-    public void gameOver(boolean newHighScore) {
+    public void gameOver(boolean newHighScore, int scoreDiff) {
 
-        if(newHighScore){
+        if(newHighScore && scoreDiff > 1){
             view.getHighScoreName();
         }
+        else if (scoreDiff == 0) {
+            view.draw();
+        }
         else
-            view.betterLuck();
+            view.betterLuck(scoreDiff);
         updateHighScores();
     }
 
@@ -100,7 +107,7 @@ public class Controller {
 
         model.resetBoard();
         view.resetTestPlayer();
-        aiPlayer = new AIPlayer(this, model);
+        aiPlayer = new AIPlayer(this);
     }
 
     public void letAIPlay() {

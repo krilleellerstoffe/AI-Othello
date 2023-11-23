@@ -19,7 +19,7 @@ public class HighScoreKeeper {
     //makes a top 10 list with worst scores possible
     private void initialiseHighScores(int size){
         for(int i = 0; i< highScores.length; i++){
-            highScores[i] = size*size;
+            highScores[i] = 0;
             highScoresNames[i] = "A A A";
         }
     }

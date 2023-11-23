@@ -29,7 +29,7 @@ public class HighScoreDialog extends JDialog {
         setSize(new Dimension(500, 100));
         setLocationRelativeTo(view);
         setAlwaysOnTop(true);
-        setTitle("******Congratulations! New High Score!******");
+        setTitle("****Black Wins! *** New High Score!******");
 
         hsPanel = new JPanel();
         hsPanel.setPreferredSize(new Dimension(300, 40));

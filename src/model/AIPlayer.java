@@ -7,16 +7,25 @@ package model;
 
 import controller.Controller;
 
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
+import com.jcabi.aspects.Timeable;
+
 public class AIPlayer {
 
     private Controller controller;
-    private GameManager model;
 
+    private volatile boolean timeUp = false;
 
-    public AIPlayer(Controller controller, GameManager model) {
+    private ExecutorService executor = Executors.newSingleThreadExecutor();
+
+    public AIPlayer(Controller controller) {
 
         this.controller = controller;
-        this.model = model;
     }
 
     public void nextBestMove() {
@@ -25,11 +34,28 @@ public class AIPlayer {
         //TODO implement displaying of depth reached; number of nodes examined;
     }
 
+    @Timeable(limit = 5, unit = TimeUnit.SECONDS)
     private int[] findBestMoves(GameBoard currentBoard) {
-        GameBoard board = GameBoard.deepCopy(currentBoard);
-        GameTree.TreeNode root = GameTree.buildTree(board, 3);
-        int[] bestMove = GameTree.findBestMove(root, 2).getLastMove();
-        System.out.println("Best move is " + (char) ('A' + bestMove[0]) + ", " + bestMove[1]);
+        GameBoard copyOfCurrentBoard = GameBoard.deepCopy(currentBoard);
+        int[] bestMove = new int[2];
+        long startTime = System.currentTimeMillis();
+        long currentTime = startTime;
+        long maxTime = startTime + 5000;
+        int depth = 1;
+
+        while(currentTime < maxTime) {
+            GameTree.TreeNode root = GameTree.buildTree(copyOfCurrentBoard, depth, maxTime);
+            try {
+                bestMove = GameTree.findBestMove(root, depth).getLastMove();
+            } catch (Exception e) {
+                System.out.println("Game tree not complete, time limit reached");
+            }
+            System.out.println("Best move at depth " + depth + " is " + (char) ('A' + bestMove[0]) + ", " + bestMove[1]);
+            System.out.println("Time elapsed: " + ((double)System.currentTimeMillis() - startTime)/1000 + " seconds");
+            //update conditions
+            currentTime = System.currentTimeMillis();
+            depth++;
+        }
         return bestMove;
     }
 }

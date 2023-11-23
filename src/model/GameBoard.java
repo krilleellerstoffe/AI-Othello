@@ -205,14 +205,12 @@ public class GameBoard {
     }
 
     public void flipSquares(int k, int l, int xDirection, int yDirection) {
-        System.out.println("flipping squares back from "+ (char) ('A' + (k+xDirection)) + " "+ (l+yDirection));
         //turn around and flip colours
         do {
             //create local variables to prevent loop exiting prematurely
             int newXDirection = reverseDirection(xDirection);
             int newYDirection = reverseDirection(yDirection);
             //flip square to desired colour
-            System.out.println("flipping " + (char) ('A' + (k+newXDirection)) + " "+ (l+newYDirection));
             squares[k + newXDirection][l + newYDirection].flipColour();
             //now update variables for loop condition
             xDirection = newXDirection;
@@ -230,6 +228,7 @@ public class GameBoard {
             return direction;
         }
     }
+
     private int reverseDirection(int direction) {
         if (direction < 0) {
             return direction+1;
@@ -245,6 +244,7 @@ public class GameBoard {
     public void setSquares(Square[][] squares) {
         this.squares = squares;
     }
+
     public void setSize(int size) {
         this.size = size;
     }

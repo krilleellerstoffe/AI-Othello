@@ -9,6 +9,7 @@ import controller.Controller;
 import model.GameBoard;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class MainFrame extends JFrame {
 
@@ -42,6 +43,13 @@ public class MainFrame extends JFrame {
         setResizable(false);
         setVisible(true);
         pack();
+        centreWindow(this);
+    }
+    public static void centreWindow(Window frame) {
+        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (int) ((dimension.getWidth() - frame.getWidth()) / 2);
+        int y = (int) ((dimension.getHeight() - frame.getHeight()) / 2);
+        frame.setLocation(x, y);
     }
     //ask the player how big the board should be (min 4x4, max 8x8)
     public static int getBoardSize() {
@@ -99,9 +107,14 @@ public class MainFrame extends JFrame {
         controller.letAIPlay();
     }
     //commiserates the player
-    public void betterLuck() {
+    public void betterLuck(int scoreDiff) {
+        if (scoreDiff > 0) {
+            JOptionPane.showMessageDialog(null, "Black Wins! But no high score, better luck next time!");
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "White Wins! Better luck next time!");
 
-        JOptionPane.showMessageDialog(null, "No high score, better luck next time!");
+        }
     }
     //opens dialog to get player's name when high score made
     public void getHighScoreName() {
@@ -141,5 +154,9 @@ public class MainFrame extends JFrame {
 
     public void resetTestPlayer() {
         panel.getPnlCenter().testBoolean = true;
+    }
+
+    public void draw() {
+        JOptionPane.showMessageDialog(null, "Draw! Better luck next time!");
     }
 }
