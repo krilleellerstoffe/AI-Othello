@@ -80,18 +80,6 @@ public class MainFrame extends JFrame {
         controller.buttonPressed(x, y, player1);
     }
 
-    public void changeButtonImageToBlack(int x, int y) {
-        panel.getPnlCenter().changeButtonToBlack(x,y);
-    }
-    public void changeButtonImageToWhite(int x, int y) {
-        panel.getPnlCenter().changeButtonToWhite(x, y);
-    }
-    public void changeButtonImageToOpen(int x, int y) {
-        panel.getPnlCenter().changeButtonToOpen(x, y);
-    }
-    public void changeButtonImageToEmpty(int x, int y) {
-        panel.getPnlCenter().changeButtonToEmpty(x, y);
-    }
 
 
     public int getRows() {
@@ -141,6 +129,7 @@ public class MainFrame extends JFrame {
     }
 
     public void updateBoard(GameBoard board) {
+        panel.getPnlEast().updateGameStateInfo(("Black: " + board.getBlackScore() + "  -  White: " + board.getWhiteScore()));
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 panel.getPnlCenter().updateSquare(board.getSquare(i,j), i, j);

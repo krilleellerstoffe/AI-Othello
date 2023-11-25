@@ -45,10 +45,10 @@ public class HighScoreKeeper {
         }while (changeMade);
     }
     //checks if new score would make it into the top ten
-    public boolean checkHighScore(int guesses){
+    public boolean checkHighScore(int score){
 
         boolean newHighScore = false;
-        if(guesses < highScores[9])
+        if(score > highScores[9])
             newHighScore = true;
         return newHighScore;
     }

@@ -44,8 +44,13 @@ public class AIPlayer {
         long maxTime = startTime + 5000;
         int depth = 1;
 
+        GameTree tree = new GameTree();
         while(currentTime < maxTime) {
-            GameTree.TreeNode root = GameTree.buildTree(copyOfCurrentBoard, depth, maxTime);
+            GameTree.TreeNode root = tree.buildTree(copyOfCurrentBoard, depth, maxTime);
+            if (!tree.isMaxDepthReached()) {
+                System.out.println("Tree too small to reach new depth. Breaking search.");
+                break;
+            }
             int[] newBestMove = new int[2];
             try {
                 newBestMove = GameTree.findBestMove(root, depth).getLastMove();

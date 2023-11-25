@@ -44,7 +44,7 @@ public class Controller {
             //search for squares to flip
             model.getBoard().validMove(x, y, SquareState.White, true);
             //update open squares for next player
-            validMoves =model.getBoard().updateOpenSquares(SquareState.Black);
+            validMoves = model.getBoard().updateOpenSquares(SquareState.Black);
             view.enableAIButton(true);
         }
         else {
@@ -78,9 +78,9 @@ public class Controller {
     }
 
     //if game over, checks for a new high score
-    public void gameOver(boolean newHighScore, int scoreDiff) {
-
-        if(newHighScore && scoreDiff > 1){
+    public void gameOver(boolean newHighScore, int blackScore, int whiteScore) {
+        int scoreDiff = blackScore - whiteScore;
+        if(newHighScore && scoreDiff > 0){
             view.getHighScoreName();
         }
         else if (scoreDiff == 0) {

@@ -6,30 +6,37 @@ import java.util.List;
 
 public class GameTree {
 
-    public static TreeNode buildTree(GameBoard initialBoard, int depth, long maxTime) {
-        TreeNode root = new TreeNode(initialBoard);
+    private boolean maxDepthReached;
+
+    public TreeNode buildTree(GameBoard initialBoard, int depth, long maxTime) {
+        TreeNode root = new TreeNode(initialBoard, depth);
+        maxDepthReached = false;
         populateTree(root, depth, true, maxTime);
         return root;
     }
 
-    private static void populateTree(TreeNode node, int depth, boolean maximizingPlayer, long maxTime) {
-        if (depth == 0 || gameIsOver(node)) {
+    private void populateTree(TreeNode node, int depth, boolean maximizingPlayer, long maxTime) {
+        if (gameIsOver(node)) {
             return;
         }
         if(System.currentTimeMillis() > maxTime) {
+            return;
+        }
+        if (depth == 0) {
+            maxDepthReached = true;
             return;
         }
         GameBoard currentBoard = node.getBoard();
         for (int i = 0; i < currentBoard.getSquares().length; i++) {
             for (int j = 0; j < currentBoard.getSquares().length; j++) {
                 //if the current square is playable
-                if (currentBoard.getSquares()[i][j].getState() == SquareState.Open) {
+                if (currentBoard.getSquare(i, j).getState() == SquareState.Open) {
                     //sake a copy of the current board
                     GameBoard newBoard = GameBoard.deepCopy(currentBoard);
                     //simulate placing a disk
                     placePiece(newBoard, i, j, maximizingPlayer);
                     //create a node using the simulated board
-                    TreeNode childNode = new TreeNode(newBoard);
+                    TreeNode childNode = new TreeNode(newBoard, depth-1);
                     //record the move that created the board
                     childNode.setLastMove(new int[]{i,j});
                     //add this simulated board as a child to the current node
@@ -101,13 +108,19 @@ public class GameTree {
         return node.getBoard().getValidMoves() == 0;
     }
 
+    public boolean isMaxDepthReached() {
+        return maxDepthReached;
+    }
+
     public static class TreeNode {
         private GameBoard board;
         private List<TreeNode> children;
         private int[] lastMove = new int[2];
+        private int depth;
 
-        public TreeNode(GameBoard board) {
+        public TreeNode(GameBoard board, int depth) {
             this.board = board;
+            this.depth = depth;
             this.children = new ArrayList<>();
         }
 
@@ -129,6 +142,14 @@ public class GameTree {
 
         public void setLastMove(int[] lastMove) {
             this.lastMove = lastMove;
+        }
+
+        public int getDepth() {
+            return depth;
+        }
+
+        public void setDepth(int depth) {
+            this.depth = depth;
         }
     }
 }

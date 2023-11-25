@@ -56,9 +56,11 @@ public class GameManager {
     //checks if new high score has been made, and ends the game
     public void gameIsOver() {
 
-        boolean newHighScore = highScoreKeeper.checkHighScore(board.getBlackScore());
-        int scoreDiff = board.getBlackScore() - board.getWhiteScore();
-        controller.gameOver(newHighScore, scoreDiff);
+        int blackScore = board.getBlackScore();
+        int whiteScore = board.getWhiteScore();
+        boolean newHighScore = highScoreKeeper.checkHighScore(blackScore);
+        int scoreDiff = blackScore - whiteScore;
+        controller.gameOver(newHighScore, blackScore, whiteScore);
     }
 
     public GameBoard getBoard(){
