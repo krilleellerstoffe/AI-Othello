@@ -9,21 +9,21 @@ public class GameTree {
     private boolean maxDepthReached;
 
     public TreeNode buildTree(GameBoard initialBoard, int depth, long maxTime) {
-        TreeNode root = new TreeNode(initialBoard, depth);
+        TreeNode root = new TreeNode(initialBoard);
         maxDepthReached = false;
         populateTree(root, depth, true, maxTime);
         return root;
     }
 
     private void populateTree(TreeNode node, int depth, boolean maximizingPlayer, long maxTime) {
+        if (depth == 0) {
+            maxDepthReached = true;
+            return;
+        }
         if (gameIsOver(node)) {
             return;
         }
         if(System.currentTimeMillis() > maxTime) {
-            return;
-        }
-        if (depth == 0) {
-            maxDepthReached = true;
             return;
         }
         GameBoard currentBoard = node.getBoard();
@@ -36,7 +36,7 @@ public class GameTree {
                     //simulate placing a disk
                     placePiece(newBoard, i, j, maximizingPlayer);
                     //create a node using the simulated board
-                    TreeNode childNode = new TreeNode(newBoard, depth-1);
+                    TreeNode childNode = new TreeNode(newBoard);
                     //record the move that created the board
                     childNode.setLastMove(new int[]{i,j});
                     //add this simulated board as a child to the current node
@@ -116,11 +116,9 @@ public class GameTree {
         private GameBoard board;
         private List<TreeNode> children;
         private int[] lastMove = new int[2];
-        private int depth;
 
-        public TreeNode(GameBoard board, int depth) {
+        public TreeNode(GameBoard board) {
             this.board = board;
-            this.depth = depth;
             this.children = new ArrayList<>();
         }
 
@@ -142,14 +140,6 @@ public class GameTree {
 
         public void setLastMove(int[] lastMove) {
             this.lastMove = lastMove;
-        }
-
-        public int getDepth() {
-            return depth;
-        }
-
-        public void setDepth(int depth) {
-            this.depth = depth;
         }
     }
 }
