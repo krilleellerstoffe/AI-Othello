@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
 public class WestPanel extends JPanel {
 
@@ -45,6 +46,7 @@ public class WestPanel extends JPanel {
                 enableAIButton(false);
             }
         });
+        btnAIGuess.setMnemonic(KeyEvent.VK_Q);
         btnAIGuess.setEnabled(false);
         add(btnAIGuess);
         add(Box.createRigidArea(new Dimension(0, 10)));

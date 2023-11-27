@@ -80,21 +80,21 @@ public class GameTree {
             for (TreeNode child : node.getChildren()) {
                 value = Math.max(value, alphaBeta(child, depth - 1, alpha, beta, false));
                 alpha = Math.max(alpha, value);
-                if (beta <= alpha) {
+                if (alpha >= beta) {
                     break; // Beta cutoff
                 }
             }
-            return value;
+            return alpha;
         } else {
             int value = Integer.MAX_VALUE;
             for (TreeNode child : node.getChildren()) {
                 value = Math.min(value, alphaBeta(child, depth - 1, alpha, beta, true));
                 beta = Math.min(beta, value);
-                if (beta <= alpha) {
+                if (alpha >= beta) {
                     break; // Alpha cutoff
                 }
             }
-            return value;
+            return beta;
         }
     }
 

@@ -14,8 +14,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import com.jcabi.aspects.Timeable;
-
 public class AIPlayer {
 
     private Controller controller;
@@ -35,7 +33,6 @@ public class AIPlayer {
         //TODO implement displaying of depth reached; number of nodes examined;
     }
 
-    @Timeable(limit = 5, unit = TimeUnit.SECONDS)
     private int[] findBestMoves(GameBoard currentBoard) {
         GameBoard copyOfCurrentBoard = GameBoard.deepCopy(currentBoard);
         int[] bestMove = new int[2];
