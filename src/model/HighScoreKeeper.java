@@ -31,7 +31,7 @@ public class HighScoreKeeper {
         do{
             changeMade = false;                          //reset every loop (prevents continuous loop)
             for(int i = 0; i < highScores.length-sorted; i++){    //checks up to sorted values in array
-                if(highScores[i] > highScores[i+1]){
+                if(highScores[i] < highScores[i+1]){
                     int tempScore = highScores[i];
                     String tempName = highScoresNames[i];
                     highScores[i] = highScores[i+1];
