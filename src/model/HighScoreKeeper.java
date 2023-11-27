@@ -10,21 +10,20 @@ public class HighScoreKeeper {
     private final int[] highScores;
     private final String[] highScoresNames;
 
-    public HighScoreKeeper(int size){
+    public HighScoreKeeper(){
 
         highScores = new int[10];   //10 best scores
         highScoresNames = new String[10];   //player names for the 10 best scores
-        initialiseHighScores(size);
+        initialiseHighScores();
     }
     //makes a top 10 list with worst scores possible
-    private void initialiseHighScores(int size){
+    private void initialiseHighScores(){
         for(int i = 0; i< highScores.length; i++){
             highScores[i] = 0;
             highScoresNames[i] = "A A A";
         }
     }
-    //organises the high score list by score (ascending)(bubblesort)
-    //TODO reverse order of list
+    //organises the high score list by score (descending)(bubble-sort)
     public void sortHighScores(){
         boolean changeMade;
         int sorted = 1;
@@ -47,10 +46,7 @@ public class HighScoreKeeper {
     //checks if new score would make it into the top ten
     public boolean checkHighScore(int score){
 
-        boolean newHighScore = false;
-        if(score > highScores[9])
-            newHighScore = true;
-        return newHighScore;
+        return score > highScores[9];
     }
     //inserts a new high score and reorganises them
     public void setNewHighScore(String name, int score){

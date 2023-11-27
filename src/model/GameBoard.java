@@ -217,6 +217,7 @@ public class GameBoard {
             yDirection = newYDirection;
         } while (!(xDirection == 0 && yDirection == 0));
     }
+
     private int expandDirection(int direction) {
         if (direction < 0) {
             return direction-1;

@@ -9,14 +9,15 @@ package model;
 public class Square {
 
     private SquareState state;
-    private boolean flipped;
+    private boolean flipped = false;
 
     public Square(SquareState state) {
         this.state = state;
     }
 
     public Square(Square originalSquare) {
-        setState(originalSquare.getState());
+        this.state = originalSquare.getState();
+        this.flipped = originalSquare.isFlipped();
     }
 
     public SquareState getState() {

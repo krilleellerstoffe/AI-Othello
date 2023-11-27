@@ -7,17 +7,13 @@ package view;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
 public class HighScoreDialog extends JDialog {
 
     private final MainFrame view;
-    private JPanel hsPanel;
     private JTextField txtHSName;
-    private JButton btnAddHS;
 
     //a dialog which pops up and asks the user for their name(in case of a new high score). closes itself after use
     public HighScoreDialog(MainFrame view){
@@ -31,7 +27,7 @@ public class HighScoreDialog extends JDialog {
         setAlwaysOnTop(true);
         setTitle("****Black Wins! *** New High Score!******");
 
-        hsPanel = new JPanel();
+        JPanel hsPanel = new JPanel();
         hsPanel.setPreferredSize(new Dimension(300, 40));
         setContentPane(hsPanel);
         setResizable(false);
@@ -52,13 +48,8 @@ public class HighScoreDialog extends JDialog {
             }
         });
         hsPanel.add(txtHSName);
-        btnAddHS = new JButton("Save High Score");
-        btnAddHS.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                addHighScore();
-            }
-        });
+        JButton btnAddHS = new JButton("Save High Score");
+        btnAddHS.addActionListener(e -> addHighScore());
 
         hsPanel.add(btnAddHS);
     }

@@ -58,14 +58,12 @@ public class MainFrame extends JFrame {
         try {
             choice = Integer.parseInt(JOptionPane.showInputDialog("How many squares wide should the board be? (Min 4, Max 8)"));
         } catch (Exception e) {
-
+            JOptionPane.showMessageDialog(null, "Please enter a number between 4 and 8!");
         }
         if (choice > 8) {
             choice = 8;
-            //TODO show error message and confirm board is 8 wide
         } else if (choice < 4) {
             choice = 4;
-            //TODO show error message and confirm board is 4 wide
         }
         return choice;
     }
@@ -89,7 +87,7 @@ public class MainFrame extends JFrame {
 
     public void pressButtonAI(int x, int y) {
 
-        panel.getPnlCenter().buttonPressed(x, y, false);
+        panel.getPnlCenter().buttonPressed(x, y);
     }
     public void letAIPressButton() {
         controller.letAIPlay();
@@ -122,10 +120,6 @@ public class MainFrame extends JFrame {
 
         controller.resetGame();
         controller.updateBoard();
-    }
-    public void gameOver() {
-        panel.getPnlCenter().disableButtons();
-        panel.getPnlEast().updateGameStateInfo("No more legal moves, Game Over!");
     }
 
     public void updateBoard(GameBoard board) {

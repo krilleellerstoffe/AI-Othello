@@ -13,14 +13,11 @@ import java.awt.event.ActionListener;
 public class EastPanel extends JPanel {
 
     private final MainFrame view;
-    private GridLayout layout;
 
     private final int width;
     private final int height;
 
     private JLabel lblGameState;
-
-    private JButton btnNewRules; //if user wants to change the size of the board
 
     public EastPanel(MainFrame view, int width, int height) {
 
@@ -32,7 +29,7 @@ public class EastPanel extends JPanel {
     }
     private void setupPanel() {
 
-        layout = new GridLayout(7, 2);
+        GridLayout layout = new GridLayout(7, 2);
         setLayout(layout);
         setSize(width, height);
 
@@ -42,13 +39,9 @@ public class EastPanel extends JPanel {
         add(lblGameState);
 
         //TODO Display game state, scores, latest search results, etc
-        btnNewRules = new JButton("Change board size");
-        btnNewRules.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                view.newRules();
-            }
-        });
+        //if user wants to change the size of the board
+        JButton btnNewRules = new JButton("Change board size");
+        btnNewRules.addActionListener(e -> view.newRules());
         add(btnNewRules);
     }
 

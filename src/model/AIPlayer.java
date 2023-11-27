@@ -7,20 +7,10 @@ package model;
 
 import controller.Controller;
 
-import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 public class AIPlayer {
 
     private Controller controller;
-
-    private volatile boolean timeUp = false;
-
-    private ExecutorService executor = Executors.newSingleThreadExecutor();
 
     public AIPlayer(Controller controller) {
 

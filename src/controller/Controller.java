@@ -15,11 +15,10 @@ public class Controller {
     private final GameManager model;
     private final MainFrame view;
     private AIPlayer aiPlayer;
-    private final int size;
 
     public Controller(){
 
-        size = MainFrame.getBoardSize();    //asks the user for a board size, uses this size to create components
+        int size = MainFrame.getBoardSize();    //asks the user for a board size, uses this size to create components
         model = new GameManager(this, size);
         view = new MainFrame(this, size);
         aiPlayer = new AIPlayer(this);
@@ -28,23 +27,22 @@ public class Controller {
 
     }
 
-    public Controller(Controller controller) {
+  /*  public Controller(Controller controller) {
         this.model = new GameManager(controller.model);
         this.view = null;
         this.aiPlayer = null;
         this.size = controller.size;
-    }
+    }*/
 
     //checks who pressed the button. Updates view based on result. Finally, checks if the game is over.
     public void buttonPressed(int x, int y, boolean player1) {
-        int validMoves = 0;
         if (player1) {
             //first turn selected square to black
             model.getBoard().setSquare(x, y, SquareState.Black);
             //search for squares to flip
             model.getBoard().validMove(x, y, SquareState.White, true);
             //update open squares for next player
-            validMoves = model.getBoard().updateOpenSquares(SquareState.Black);
+            model.getBoard().updateOpenSquares(SquareState.Black);
             view.enableAIButton(true);
         }
         else {
@@ -53,7 +51,7 @@ public class Controller {
             //search for squares to flip
             model.getBoard().validMove(x, y, SquareState.Black, true);
             //update open squares for next player
-            validMoves = model.getBoard().updateOpenSquares(SquareState.White);
+            model.getBoard().updateOpenSquares(SquareState.White);
             view.enableAIButton(false);
         }
         System.out.println("updating board");

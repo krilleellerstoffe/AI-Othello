@@ -12,8 +12,6 @@ public class MainPanel extends JPanel {
 
     private final MainFrame view;
 
-    private BorderLayout layout;
-
     private CenterPanelGrid pnlCenter;
     private WestPanel pnlWest;
     private EastPanel pnlEast;
@@ -31,7 +29,7 @@ public class MainPanel extends JPanel {
 
     private void setupPanel(int size) {
 
-        layout = new BorderLayout();
+        BorderLayout layout = new BorderLayout();
         setLayout(layout);
 
         pnlCenter = new CenterPanelGrid(view, size, width/2, height);

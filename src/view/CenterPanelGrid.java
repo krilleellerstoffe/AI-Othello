@@ -10,8 +10,6 @@ import model.Square;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -19,8 +17,6 @@ import java.io.IOException;
 public class CenterPanelGrid extends JPanel{
 
     private final MainFrame view;
-
-    private GridLayout layout;
 
     private final int height;
     private final int width;
@@ -44,7 +40,7 @@ public class CenterPanelGrid extends JPanel{
 
     private void setupPanel() {
 
-        layout = new GridLayout(0, size+1);
+        GridLayout layout = new GridLayout(0, size + 1);
         setLayout(layout);
         setSize(width,height);
 
@@ -71,12 +67,7 @@ public class CenterPanelGrid extends JPanel{
                 buttonEnabled[row][column] = false;
                 int x = row;
                 int y = column;
-                buttonGrid[row][column].addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        buttonPressed(x, y, true);
-                    }
-                });
+                buttonGrid[row][column].addActionListener(e -> buttonPressed(x, y));
                 add(buttonGrid[row][column]);
             }
         }
@@ -93,19 +84,20 @@ public class CenterPanelGrid extends JPanel{
         }
     }
     // Method to resize the image
-    public static ImageIcon resizeImage(String imagePath, int width) {
+    public static ImageIcon resizeImage(String imagePath, int imageSize) {
         BufferedImage img = null;
         try {
             img = ImageIO.read(new File(imagePath));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Image resizedImage = img.getScaledInstance(width, width, Image.SCALE_SMOOTH);
+        assert img != null;
+        Image resizedImage = img.getScaledInstance(imageSize, imageSize, Image.SCALE_SMOOTH);
         return new ImageIcon(resizedImage);
     }
     public boolean testBoolean = true;
     //if the button hasn't already been pressed, sets a guess in motion
-    public void buttonPressed(int x, int y, boolean player1){
+    public void buttonPressed(int x, int y){
         //if valid move, allow button to be pressed
         if(!buttonEnabled[x][y]) return; {
             view.CenterButtonPressed(x, y, testBoolean);

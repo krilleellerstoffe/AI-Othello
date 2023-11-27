@@ -7,8 +7,6 @@ package model;
 
 import controller.Controller;
 
-import javax.swing.*;
-
 public class GameManager {
 
     private final Controller controller;
@@ -21,17 +19,9 @@ public class GameManager {
     public GameManager(Controller controller, int size){
 
         this.controller = controller;
-        highScoreKeeper = new HighScoreKeeper(size);
+        highScoreKeeper = new HighScoreKeeper();
         board = new GameBoard(this, size);
         this.size = size;
-    }
-
-    public GameManager(GameManager model) {
-        this.controller = model.controller;
-        this.highScoreKeeper = new HighScoreKeeper(model.size);
-        this.board = new GameBoard(model.board);
-        this.size = model.size;
-        this.gameOver = model.gameOver;
     }
 
     //updates high score list with name and score
@@ -59,7 +49,6 @@ public class GameManager {
         int blackScore = board.getBlackScore();
         int whiteScore = board.getWhiteScore();
         boolean newHighScore = highScoreKeeper.checkHighScore(blackScore);
-        int scoreDiff = blackScore - whiteScore;
         controller.gameOver(newHighScore, blackScore, whiteScore);
     }
 
