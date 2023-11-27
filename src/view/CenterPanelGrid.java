@@ -125,7 +125,12 @@ public class CenterPanelGrid extends JPanel{
     }
     public void changeButtonToOpen(int x, int y) {
 
-        buttonGrid[x][y].setIcon(resizeImage("resources/open.png", buttonSize));
+        if (view.isAIEnabled()) {
+            buttonGrid[x][y].setIcon(resizeImage("resources/openwhite.png", buttonSize));
+        }
+        else {
+            buttonGrid[x][y].setIcon(resizeImage("resources/open.png", buttonSize));
+        }
         buttonEnabled[x][y] = true;
     }
     public void changeButtonToEmpty(int x, int y) {

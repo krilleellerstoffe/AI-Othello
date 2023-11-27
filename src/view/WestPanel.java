@@ -83,4 +83,8 @@ public class WestPanel extends JPanel {
         btnAIGuess.setEnabled(enable);
     }
 
+    public boolean isAIButtonEnabled() {
+        return btnAIGuess.isEnabled();
+    }
+
 }

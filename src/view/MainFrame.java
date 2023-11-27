@@ -148,4 +148,8 @@ public class MainFrame extends JFrame {
     public void draw() {
         JOptionPane.showMessageDialog(null, "Draw! Better luck next time!");
     }
+
+    public boolean isAIEnabled() {
+        return panel.getPnlWest().isAIButtonEnabled();
+    }
 }

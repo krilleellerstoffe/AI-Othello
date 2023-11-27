@@ -19,9 +19,7 @@ public class EastPanel extends JPanel {
     private final int height;
 
     private JLabel lblGameState;
-    private JButton btnAIGuess;
 
-    private JButton btnResetGame;
     private JButton btnNewRules; //if user wants to change the size of the board
 
     public EastPanel(MainFrame view, int width, int height) {
@@ -59,5 +57,4 @@ public class EastPanel extends JPanel {
 
         lblGameState.setText(text);
     }
-
 }
