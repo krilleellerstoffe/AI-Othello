@@ -82,26 +82,35 @@ public class GameTree {
     }
 
     public static int alphaBeta(TreeNode node, int depth, int alpha, int beta, boolean maximizingPlayer) {
+        //Get score at leaf node
         if (depth == 0 || gameIsOver(node)) {
-            return evaluate(node); // Evaluation function for the leaf node
+            return evaluate(node);
         }
         if (maximizingPlayer) {
-            int value = Integer.MIN_VALUE;
+            //initialise new alpha value to max
+            int newAlpha = Integer.MIN_VALUE;
+            //iterate through children
             for (TreeNode child : node.getChildren()) {
-                value = Math.max(value, alphaBeta(child, depth - 1, alpha, beta, false));
-                alpha = Math.max(alpha, value);
+                //get minimum alpha value from child's children (recursive)
+                newAlpha = Math.max(newAlpha, alphaBeta(child, depth - 1, alpha, beta, false));
+                //replace with new value if bigger
+                alpha = Math.max(alpha, newAlpha);
                 if (alpha >= beta) {
-                    break; // Beta cutoff
+                    break;
                 }
             }
             return alpha;
         } else {
-            int value = Integer.MAX_VALUE;
+            //initialise new beta value to max
+            int newBeta = Integer.MAX_VALUE;
+            //iterate through children
             for (TreeNode child : node.getChildren()) {
-                value = Math.min(value, alphaBeta(child, depth - 1, alpha, beta, true));
-                beta = Math.min(beta, value);
+                //get minimum beta value from child's children (recursive)
+                newBeta = Math.min(newBeta, alphaBeta(child, depth - 1, alpha, beta, true));
+                //replace with new value if bigger
+                beta = Math.min(beta, newBeta);
                 if (alpha >= beta) {
-                    break; // Alpha cutoff
+                    break;
                 }
             }
             return beta;
