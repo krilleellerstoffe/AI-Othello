@@ -105,7 +105,12 @@ public class GameTree {
 
     //return the score we want to maximise (AI player is white)
     public static int evaluate(TreeNode node) {
-        return node.getBoard().getWhiteScore();
+        if(node.getBoard().isPlayerTurn()) {
+            return node.getBoard().getBlackScore();
+        }
+        else {
+            return node.getBoard().getWhiteScore();
+        }
     }
 
     //game ends if no more moves possible

@@ -26,8 +26,6 @@ public class CenterPanelGrid extends JPanel{
     private JButton[][] buttonGrid; //array of buttons which represent each square on board
     private final boolean[][] buttonEnabled;    //keeps track of used/disabled buttons
 
-    public boolean playerTurn = true; //keep track of player or AI turn
-
     //First set up the grid and relative sizes
     public CenterPanelGrid(MainFrame view, int size, int width, int height) {
 
@@ -91,10 +89,11 @@ public class CenterPanelGrid extends JPanel{
 
     //if the button hasn't already been pressed, sets a guess in motion
     public void buttonPressed(int x, int y){
+        boolean playerTurn = view.isPlayerTurn();
         //if valid move, allow button to be pressed
         if(!buttonEnabled[x][y]) return; {
             view.CenterButtonPressed(x, y, playerTurn);
-            playerTurn = !playerTurn;
+            view.setPlayerTurn(!playerTurn);
         }
     }
     //change the image on a button to represent it's current state
@@ -110,11 +109,11 @@ public class CenterPanelGrid extends JPanel{
     }
     public void changeButtonToOpen(int x, int y) {
 
-        if (view.isAIEnabled()) {
-            buttonGrid[x][y].setIcon(resizeImage("resources/openwhite.png", buttonSize));
+        if (view.isPlayerTurn()) {
+            buttonGrid[x][y].setIcon(resizeImage("resources/open.png", buttonSize));
         }
         else {
-            buttonGrid[x][y].setIcon(resizeImage("resources/open.png", buttonSize));
+            buttonGrid[x][y].setIcon(resizeImage("resources/openwhite.png", buttonSize));
         }
         buttonEnabled[x][y] = true;
     }

@@ -32,30 +32,26 @@ public class Controller {
         if (player1) {
             //first turn selected square to black
             model.getBoard().setSquare(x, y, SquareState.Black);
-            //search for squares to flip
+            //search for opposite squares to flip
             model.getBoard().validMove(x, y, SquareState.White, true);
             //update open squares for next player
+            model.getBoard().setPlayerTurn(false);
             model.getBoard().updateOpenSquares(SquareState.Black);
-            view.enableAIButton(true);
         }
         else {
             //first turn selected square to black
             model.getBoard().setSquare(x, y, SquareState.White);
-            //search for squares to flip
+            //search for opposite squares to flip
             model.getBoard().validMove(x, y, SquareState.Black, true);
             //update open squares for next player
+            model.getBoard().setPlayerTurn(true);
             model.getBoard().updateOpenSquares(SquareState.White);
-            view.enableAIButton(false);
         }
         System.out.println("updating board");
         updateBoard();
         if (model.isGameOver()) {
             model.gameIsOver();
         }
-        //update score
-        //update gamestate
-        //update available squares for each player
-
     }
 
     public void updateBoard() {
@@ -108,5 +104,17 @@ public class Controller {
 
     public GameManager getModel() {
         return model;
+    }
+
+    public void randomGuess() {
+        aiPlayer.nextRandomMove();
+    }
+
+    public boolean isPlayerTurn() {
+        return model.getBoard().isPlayerTurn();
+    }
+
+    public void setPlayerTurn(boolean b) {
+        model.getBoard().setPlayerTurn(b);
     }
 }

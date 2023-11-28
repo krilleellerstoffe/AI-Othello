@@ -17,6 +17,7 @@ public class WestPanel extends JPanel {
     private final int height;
 
     private JButton btnAIGuess;
+    private JButton btnRandom;
     private JList<String> lstHighScores;
 
     public WestPanel(MainFrame view, int width, int height) {
@@ -38,20 +39,28 @@ public class WestPanel extends JPanel {
         btnAIGuess.add(Box.createRigidArea(new Dimension(100,50)));
         btnAIGuess.addActionListener(e -> {
             view.letAIPressButton();
-            enableAIButton(false);
         });
         btnAIGuess.setMnemonic(KeyEvent.VK_Q);
-        btnAIGuess.setEnabled(false);
+        btnAIGuess.setEnabled(true);
         add(btnAIGuess);
-        add(Box.createRigidArea(new Dimension(0, 10)));
 
+        add(Box.createRigidArea(new Dimension(0, 10)));
+        btnRandom = new JButton("Random guess");
+        btnRandom.setAlignmentX(Component.CENTER_ALIGNMENT);
+        btnRandom.add(Box.createRigidArea(new Dimension(100,50)));
+        btnRandom.addActionListener(e -> {
+            view.pressRandomButton();
+        });
+        btnRandom.setMnemonic(KeyEvent.VK_R);
+        btnRandom.setEnabled(true);
+        add(btnRandom);
+        add(Box.createRigidArea(new Dimension(0, 10)));
 
         JButton btnResetGame = new JButton("Reset Board");
         btnResetGame.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnResetGame.add(Box.createRigidArea(new Dimension(100,50)));
         btnResetGame.addActionListener(e -> {
             view.resetGame();
-            enableAIButton(false);
         });
         add(btnResetGame);
         add(Box.createRigidArea(new Dimension(0, 10)));
@@ -70,12 +79,6 @@ public class WestPanel extends JPanel {
         lstHighScores.setListData(highScores);
     }
 
-    public void enableAIButton(boolean enable) {
-        btnAIGuess.setEnabled(enable);
-    }
 
-    public boolean isAIButtonEnabled() {
-        return btnAIGuess.isEnabled();
-    }
 
 }

@@ -23,7 +23,6 @@ public class GameManager {
         board = new GameBoard(this, size);
         this.size = size;
     }
-
     //updates high score list with name and score
     public void setNewHighScore(String name) {
 
@@ -51,15 +50,12 @@ public class GameManager {
         boolean newHighScore = highScoreKeeper.checkHighScore(blackScore);
         controller.gameOver(newHighScore, blackScore, whiteScore);
     }
-
     public GameBoard getBoard(){
         return board;
     }
     //resets the board and repopulates it with a new array of ships
     public void resetBoard(){
-
         board = new GameBoard(this, size);
         gameOver = false;
     }
-
 }

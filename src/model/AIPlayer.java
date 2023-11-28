@@ -7,6 +7,9 @@ package model;
 
 import controller.Controller;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 
 public class AIPlayer {
 
@@ -21,6 +24,25 @@ public class AIPlayer {
         int[] nextBestMove = findBestMoves(controller.getModel().getBoard());
         controller.pressButtonAI(nextBestMove[0], nextBestMove[1]);
         //TODO implement displaying of depth reached; number of nodes examined;
+    }
+    public void nextRandomMove() {
+        int[] randomMove = findRandomMove(controller.getModel().getBoard());
+        controller.pressButtonAI(randomMove[0], randomMove[1]);
+    }
+
+    private int[] findRandomMove(GameBoard board) {
+        ArrayList<int[]> validMoves = new ArrayList<>();
+        for (int i = 0; i < board.getSquares().length; i++) {
+            for (int j = 0; j < board.getSquares().length; j++) {
+                //if the current square is playable
+                if (board.getSquare(i, j).getState() == SquareState.Open) {
+                    validMoves.add(new int[]{i, j});
+                }
+            }
+        }
+        Random random = new Random();
+        int randomIndex = random.nextInt(validMoves.size());
+        return validMoves.get(randomIndex);
     }
 
     private int[] findBestMoves(GameBoard currentBoard) {

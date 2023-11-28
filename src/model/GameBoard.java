@@ -10,52 +10,46 @@ public class GameBoard {
     private GameManager model;
 
     private int size;  //height of game board
-
     private Square[][] squares; //an array of squares on the board
 
-
+    private boolean playerTurn;
 
     public GameBoard(GameManager model, int size) {
 
         this.model = model;
         this.size = size;
         squares = new Square[size][size];
+        playerTurn = true;
         setupStartingBoard();
     }
-
-    public GameBoard(GameBoard board) {
-        this.model = board.model;
-        this.size = board.size;
-        this.squares = board.squares;
-    }
-
+    //constructor for en empty board
     public GameBoard() {
-
         squares = new Square[0][];
         size = 0;
     }
-
-
+    //create a copy of a given board
     public static GameBoard deepCopy(GameBoard currentBoard) {
+        //first create an empty board
         GameBoard newBoard = new GameBoard();
+        //now get the squares from the board we want to copy
         Square[][] originalSquares = currentBoard.getSquares();
+        //initialise the array
         int size = currentBoard.getSize();
         Square[][] copiedSquares = new Square[size][size];
-
         // Perform a deep copy of each Square object
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 Square originalSquare = originalSquares[i][j];
-                // Assuming Square has a copy constructor or a method to create a deep copy
-                copiedSquares[i][j] = new Square(originalSquare); // Create a new Square with copied state
+                copiedSquares[i][j] = new Square(originalSquare);
             }
         }
-
+        boolean playerTurn = currentBoard.isPlayerTurn();
+        //now add variables to new board
         newBoard.setSquares(copiedSquares);
         newBoard.setSize(size);
+        newBoard.setPlayerTurn(playerTurn);
         return newBoard;
     }
-
     //sets all squares as empty, then places starting discs and updates the valid moves
     private void setupStartingBoard() {
         for (int i = 0; i < size; i++) {
@@ -69,7 +63,7 @@ public class GameBoard {
         setSquare(size/2, size/2, SquareState.Black);
         updateOpenSquares(SquareState.White);
     }
-
+    //returns the grid of squares
     public Square[][] getSquares() {
         return squares;
     }
@@ -77,11 +71,11 @@ public class GameBoard {
     public Square getSquare(int x,int y) {
         return squares[x][y];
     }
-
+    //updates square at x, y
     public void setSquare(int x, int y, SquareState state) {
         squares[x][y] = new Square(state);
     }
-
+    //check how many valid moves are available
     public int getValidMoves() {
         int validMoves = 0;
         for (int i = 0; i < size; i++) {
@@ -93,7 +87,7 @@ public class GameBoard {
         }
         return validMoves;
     }
-
+    //get number of white discs on board
     public int getWhiteScore() {
         int whiteScore = 0;
         for (int i = 0; i < size; i++) {
@@ -105,7 +99,7 @@ public class GameBoard {
         }
         return whiteScore;
     }
-
+    //get number of black discs on board
     public int getBlackScore() {
         int blackScore = 0;
         for (int i = 0; i < size; i++) {
@@ -117,8 +111,6 @@ public class GameBoard {
         }
         return blackScore;
     }
-
-
     // check for valid moves
     public int updateOpenSquares(SquareState stateToLookFor) {
         int validMoves = 0;
@@ -138,47 +130,46 @@ public class GameBoard {
                     squares[i][j].setState(SquareState.Open);
                     validMoves++;
                 }
-
             }
         }
         return validMoves;
     }
-    //returns true if valid move possible
-    public boolean validMove(int i, int j, SquareState oppositeColour, boolean flip) {
+    //returns true if valid move possible at square x, y
+    public boolean validMove(int x, int y, SquareState oppositeColour, boolean flip) {
         boolean validMove = false;
         //iterate through neighbours
-        for (int k = i-1; k <= i+1; k++) {
-            for (int l = j-1; l <= j+1; l++) {
+        for (int i = x-1; i <= x+1; i++) {
+            for (int j = y-1; j <= y+1; j++) {
                 //skip invalid squares
-                if (!inBounds(k, l)) {
+                if (!inBounds(i, j)) {
                     continue;
                 }
                 //skip own square
-                if(k == i && l == j) {
+                if(i == x && j == y) {
                     continue;
                 }
                 //skip if neighbour not opposite colour
-                if(squares[k][l].getState() != oppositeColour) {
+                if(squares[i][j].getState() != oppositeColour) {
                     continue;
                 }
                 //found possible valid move, expand in same direction
-                int xDirection = (k-i);
-                int yDirection = (l-j);
+                int xDirection = (i-x);
+                int yDirection = (j-y);
                 //check still in bounds of the game board
-                while(inBounds(k+xDirection, l+yDirection)) {
+                while(inBounds(i+xDirection, j+yDirection)) {
                     //while still opposite colour, continue to expand search
-                    if(squares[k+xDirection][l+yDirection].getState() == SquareState.Open) {
+                    if(squares[i+xDirection][j+yDirection].getState() == SquareState.Open) {
                         break;
                     }
-                    else if (squares[k+xDirection][l+yDirection].getState() == SquareState.Empty) {
+                    else if (squares[i+xDirection][j+yDirection].getState() == SquareState.Empty) {
                         break;
                     }
                     //if same colour found in direction after that, then move is valid
-                    else if(squares[k+xDirection][l+yDirection].getOppositeState() == oppositeColour) {
+                    else if(squares[i+xDirection][j+yDirection].getOppositeState() == oppositeColour) {
                         //if flipping to be done, do it now
                         if(flip) {
-                            if (!squares[k][l].isFlipped()) {
-                                flipSquares(k, l, xDirection, yDirection);
+                            if (!squares[i][j].isFlipped()) {
+                                flipSquares(i, j, xDirection, yDirection);
                             }
                         }
                         //update valid condition
@@ -193,7 +184,7 @@ public class GameBoard {
         }
         return validMove;
     }
-
+    //check square exists on board
     private boolean inBounds(int x, int y) {
         if (x < 0 || x >= size) {
             return false;
@@ -203,33 +194,33 @@ public class GameBoard {
         }
         return true;
     }
-
-    public void flipSquares(int k, int l, int xDirection, int yDirection) {
+    //Flip squares back to disc at x, y
+    public void flipSquares(int x, int y, int xDirection, int yDirection) {
         //turn around and flip colours
         do {
             //create local variables to prevent loop exiting prematurely
             int newXDirection = reverseDirection(xDirection);
             int newYDirection = reverseDirection(yDirection);
             //flip square to desired colour
-            squares[k + newXDirection][l + newYDirection].flipColour();
+            squares[x + newXDirection][y + newYDirection].flipColour();
             //now update variables for loop condition
             xDirection = newXDirection;
             yDirection = newYDirection;
         } while (!(xDirection == 0 && yDirection == 0));
     }
-
+    //return next square's coordinates for a given direction
     private int expandDirection(int direction) {
         if (direction < 0) {
-            return direction-1;
+            return direction - 1;
         }
         else if (direction > 0) {
-            return direction+1;
+            return direction + 1;
         }
         else {
             return direction;
         }
     }
-
+    //return previous square's coordinates for a given direction
     private int reverseDirection(int direction) {
         if (direction < 0) {
             return direction+1;
@@ -241,16 +232,21 @@ public class GameBoard {
             return direction;
         }
     }
-
     public void setSquares(Square[][] squares) {
         this.squares = squares;
     }
-
     public void setSize(int size) {
         this.size = size;
     }
-
     public int getSize() {
         return size;
+    }
+
+    public boolean isPlayerTurn() {
+        return playerTurn;
+    }
+
+    public void setPlayerTurn(boolean playerTurn) {
+        this.playerTurn = playerTurn;
     }
 }

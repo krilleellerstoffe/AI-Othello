@@ -130,19 +130,24 @@ public class MainFrame extends JFrame {
         }
     }
 
-    public void enableAIButton(boolean enable) {
-        panel.getPnlWest().enableAIButton(enable);
-    }
 
     public void resetTestPlayer() {
-        panel.getPnlCenter().playerTurn = true;
+        controller.setPlayerTurn(true);
     }
 
     public void draw() {
         JOptionPane.showMessageDialog(null, "Draw! Better luck next time!");
     }
 
-    public boolean isAIEnabled() {
-        return panel.getPnlWest().isAIButtonEnabled();
+    public void pressRandomButton() {
+        controller.randomGuess();
+    }
+
+    public boolean isPlayerTurn() {
+        return controller.isPlayerTurn();
+    }
+
+    public void setPlayerTurn(boolean b) {
+        controller.setPlayerTurn(b);
     }
 }
