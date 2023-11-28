@@ -26,6 +26,9 @@ public class CenterPanelGrid extends JPanel{
     private JButton[][] buttonGrid; //array of buttons which represent each square on board
     private final boolean[][] buttonEnabled;    //keeps track of used/disabled buttons
 
+    public boolean playerTurn = true; //keep track of player or AI turn
+
+    //First set up the grid and relative sizes
     public CenterPanelGrid(MainFrame view, int size, int width, int height) {
 
         this.view = view;
@@ -43,19 +46,19 @@ public class CenterPanelGrid extends JPanel{
         GridLayout layout = new GridLayout(0, size + 1);
         setLayout(layout);
         setSize(width,height);
-
         setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
     }
     private void createComponents() {
 
         // Add an empty label to occupy the top-left cell
         add(new JLabel());
+
         for (int i = 0; i < size; i++) {
             JLabel colLabel = new JLabel("" + i, SwingConstants.CENTER);
             add(colLabel);
         }
         buttonGrid = new JButton[size][size];
-
+        //create a grid of buttons for each square on the board
         for (int row = 0; row < buttonGrid.length; row++) {
             JLabel rowLabel = new JLabel(Character.toString((char) ('A' + row)), SwingConstants.CENTER);
             add(rowLabel);
@@ -63,6 +66,7 @@ public class CenterPanelGrid extends JPanel{
                 buttonGrid[row][column] = new JButton();
                 buttonGrid[row][column].setPreferredSize(new Dimension(buttonSize, buttonSize));
                 buttonGrid[row][column].add(Box.createRigidArea(new Dimension(buttonSize,buttonSize)));
+                //resize image to fit button
                 buttonGrid[row][column].setIcon(resizeImage("resources/empty.png", buttonSize));
                 buttonEnabled[row][column] = false;
                 int x = row;
@@ -70,17 +74,6 @@ public class CenterPanelGrid extends JPanel{
                 buttonGrid[row][column].addActionListener(e -> buttonPressed(x, y));
                 add(buttonGrid[row][column]);
             }
-        }
-        // Create labels for row numbers and column numbers
-        JPanel rowPanel = new JPanel(new GridLayout(6, 1));
-        JPanel colPanel = new JPanel(new GridLayout(1, 6));
-
-        for (int i = 0; i < 6; i++) {
-            JLabel rowLabel = new JLabel("" + i, SwingConstants.CENTER);
-            JLabel colLabel = new JLabel("" + i, SwingConstants.CENTER);
-
-            rowPanel.add(rowLabel);
-            colPanel.add(colLabel);
         }
     }
     // Method to resize the image
@@ -95,13 +88,13 @@ public class CenterPanelGrid extends JPanel{
         Image resizedImage = img.getScaledInstance(imageSize, imageSize, Image.SCALE_SMOOTH);
         return new ImageIcon(resizedImage);
     }
-    public boolean testBoolean = true;
+
     //if the button hasn't already been pressed, sets a guess in motion
     public void buttonPressed(int x, int y){
         //if valid move, allow button to be pressed
         if(!buttonEnabled[x][y]) return; {
-            view.CenterButtonPressed(x, y, testBoolean);
-            testBoolean = !testBoolean;
+            view.CenterButtonPressed(x, y, playerTurn);
+            playerTurn = !playerTurn;
         }
     }
     //change the image on a button to represent it's current state
@@ -129,15 +122,6 @@ public class CenterPanelGrid extends JPanel{
 
         buttonGrid[x][y].setIcon(resizeImage("resources/empty.png", buttonSize));
         buttonEnabled[x][y] = false;
-    }
-
-    //disables all the buttons in case of game over state
-    public void disableButtons() {
-        for (int i = 0; i<size; i++){
-            for(int j = 0; j<size; j++){
-                buttonEnabled[i][j] = false;
-            }
-        }
     }
 
     public void updateSquare(Square square, int x, int y) {

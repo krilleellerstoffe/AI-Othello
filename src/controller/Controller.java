@@ -27,13 +27,6 @@ public class Controller {
 
     }
 
-  /*  public Controller(Controller controller) {
-        this.model = new GameManager(controller.model);
-        this.view = null;
-        this.aiPlayer = null;
-        this.size = controller.size;
-    }*/
-
     //checks who pressed the button. Updates view based on result. Finally, checks if the game is over.
     public void buttonPressed(int x, int y, boolean player1) {
         if (player1) {

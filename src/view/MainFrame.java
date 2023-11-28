@@ -67,32 +67,29 @@ public class MainFrame extends JFrame {
         }
         return choice;
     }
+    //discard current window and create new game
     public void newRules(){
-
         dispose();
         new Controller();
     }
-
+    //if button successfully pressed, tell the controller about it
     public void CenterButtonPressed(int x, int y, boolean player1){
-
         controller.buttonPressed(x, y, player1);
     }
 
-
-
+    //return the height of the grid
     public int getRows() {
-
         return size;
     }
-
+    //button pressed by AI player
     public void pressButtonAI(int x, int y) {
-
         panel.getPnlCenter().buttonPressed(x, y);
     }
+    //ask controller to tell AI it can play
     public void letAIPressButton() {
         controller.letAIPlay();
     }
-    //commiserates the player
+    //commiserates the player if loss or no high score
     public void betterLuck(int scoreDiff) {
         if (scoreDiff > 0) {
             JOptionPane.showMessageDialog(null, "Black Wins! But no high score, better luck next time!");
@@ -107,17 +104,19 @@ public class MainFrame extends JFrame {
 
         new HighScoreDialog(this);
     }
+    //adds name to high score list
     public void setHSName(String name) {
 
         controller.setHSName(name);
     }
+    //update high score list
     public void updateHighScores(String[] highScores) {
         panel.getPnlWest().updateHighScores(highScores);
     }
     //information on previous guess
 
+    //clear board and start new game
     public void resetGame() {
-
         controller.resetGame();
         controller.updateBoard();
     }
@@ -136,7 +135,7 @@ public class MainFrame extends JFrame {
     }
 
     public void resetTestPlayer() {
-        panel.getPnlCenter().testBoolean = true;
+        panel.getPnlCenter().playerTurn = true;
     }
 
     public void draw() {
