@@ -5,7 +5,7 @@
 */
 package controller;
 
-import model.AIPlayer;
+import ai.AIPlayer;
 import model.GameManager;
 import model.SquareState;
 import view.MainFrame;
@@ -28,14 +28,14 @@ public class Controller {
     }
 
     //checks who pressed the button. Updates view based on result. Finally, checks if the game is over.
-    public void buttonPressed(int x, int y, boolean player1) {
-        if (player1) {
+    public void buttonPressed(int x, int y, boolean blacksTurn) {
+        if (blacksTurn) {
             //first turn selected square to black
             model.getBoard().setSquare(x, y, SquareState.Black);
             //search for opposite squares to flip
             model.getBoard().validMove(x, y, SquareState.White, true);
             //update open squares for next player
-            model.getBoard().setPlayerTurn(false);
+            model.getBoard().setBlacksTurn(false);
             model.getBoard().updateOpenSquares(SquareState.Black);
         }
         else {
@@ -44,7 +44,7 @@ public class Controller {
             //search for opposite squares to flip
             model.getBoard().validMove(x, y, SquareState.Black, true);
             //update open squares for next player
-            model.getBoard().setPlayerTurn(true);
+            model.getBoard().setBlacksTurn(true);
             model.getBoard().updateOpenSquares(SquareState.White);
         }
         System.out.println("updating board");
@@ -111,10 +111,10 @@ public class Controller {
     }
 
     public boolean isPlayerTurn() {
-        return model.getBoard().isPlayerTurn();
+        return model.getBoard().isBlacksTurn();
     }
 
     public void setPlayerTurn(boolean b) {
-        model.getBoard().setPlayerTurn(b);
+        model.getBoard().setBlacksTurn(b);
     }
 }

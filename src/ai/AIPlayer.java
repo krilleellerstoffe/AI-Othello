@@ -3,9 +3,11 @@
   Id: <al0038>
   Study program: <Artificial Intelligence DA272A>
 */
-package model;
+package ai;
 
 import controller.Controller;
+import model.GameBoard;
+import model.SquareState;
 
 import java.util.ArrayList;
 import java.util.Random;

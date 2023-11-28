@@ -20,7 +20,7 @@ public class GameManager {
 
         this.controller = controller;
         highScoreKeeper = new HighScoreKeeper();
-        board = new GameBoard(this, size);
+        board = new GameBoard(size);
         this.size = size;
     }
     //updates high score list with name and score
@@ -55,7 +55,7 @@ public class GameManager {
     }
     //resets the board and repopulates it with a new array of ships
     public void resetBoard(){
-        board = new GameBoard(this, size);
+        board = new GameBoard(size);
         gameOver = false;
     }
 }

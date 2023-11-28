@@ -7,19 +7,16 @@ package model;
 
 public class GameBoard {
 
-    private GameManager model;
-
     private int size;  //height of game board
     private Square[][] squares; //an array of squares on the board
 
-    private boolean playerTurn;
+    private boolean blacksTurn; //keep track of whose turn it is on current board
 
-    public GameBoard(GameManager model, int size) {
+    public GameBoard(int size) {
 
-        this.model = model;
         this.size = size;
         squares = new Square[size][size];
-        playerTurn = true;
+        blacksTurn = true;
         setupStartingBoard();
     }
     //constructor for en empty board
@@ -43,11 +40,11 @@ public class GameBoard {
                 copiedSquares[i][j] = new Square(originalSquare);
             }
         }
-        boolean playerTurn = currentBoard.isPlayerTurn();
+        boolean playerTurn = currentBoard.isBlacksTurn();
         //now add variables to new board
         newBoard.setSquares(copiedSquares);
         newBoard.setSize(size);
-        newBoard.setPlayerTurn(playerTurn);
+        newBoard.setBlacksTurn(playerTurn);
         return newBoard;
     }
     //sets all squares as empty, then places starting discs and updates the valid moves
@@ -242,11 +239,11 @@ public class GameBoard {
         return size;
     }
 
-    public boolean isPlayerTurn() {
-        return playerTurn;
+    public boolean isBlacksTurn() {
+        return blacksTurn;
     }
 
-    public void setPlayerTurn(boolean playerTurn) {
-        this.playerTurn = playerTurn;
+    public void setBlacksTurn(boolean blacksTurn) {
+        this.blacksTurn = blacksTurn;
     }
 }

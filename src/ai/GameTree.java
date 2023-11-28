@@ -3,8 +3,11 @@
   Id: <al0038>
   Study program: <Artificial Intelligence DA272A>
 */
-package model;
+package ai;
 
+
+import model.GameBoard;
+import model.SquareState;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +42,7 @@ public class GameTree {
                     //sake a copy of the current board
                     GameBoard newBoard = GameBoard.deepCopy(currentBoard);
                     //simulate placing a disk
-                    placePiece(newBoard, i, j, maximizingPlayer);
+                    placeDisc(newBoard, i, j, maximizingPlayer);
                     //create a node using the simulated board
                     TreeNode childNode = new TreeNode(newBoard);
                     //record the move that created the board
@@ -53,13 +56,16 @@ public class GameTree {
         }
     }
 
-    private static void placePiece(GameBoard newBoard, int i, int j, boolean maximizingPlayer) {
-
-        newBoard.setSquare(i, j, (maximizingPlayer? SquareState.White : SquareState.Black));
+    private static void placeDisc(GameBoard newBoard, int i, int j, boolean maximizingPlayer) {
+        //Set colour of disc to place according to whose turn it is
+        SquareState maximisingColour = (newBoard.isBlacksTurn()? SquareState.Black : SquareState.White);
+        SquareState minimisingColour = (newBoard.isBlacksTurn()? SquareState.White : SquareState.Black);
+        //place disc on selected square
+        newBoard.setSquare(i, j, (maximizingPlayer? maximisingColour : minimisingColour));
         //search for squares to flip
-        newBoard.validMove(i, j, (maximizingPlayer? SquareState.Black : SquareState.White), true);
+        newBoard.validMove(i, j, (maximizingPlayer? minimisingColour : maximisingColour), true);
         //update open squares for next player
-        newBoard.updateOpenSquares((maximizingPlayer? SquareState.White : SquareState.Black));
+        newBoard.updateOpenSquares((maximizingPlayer? maximisingColour : minimisingColour));
     }
 
     public static TreeNode findBestMove(TreeNode rootNode, int depth) {
@@ -79,7 +85,6 @@ public class GameTree {
         if (depth == 0 || gameIsOver(node)) {
             return evaluate(node); // Evaluation function for the leaf node
         }
-
         if (maximizingPlayer) {
             int value = Integer.MIN_VALUE;
             for (TreeNode child : node.getChildren()) {
@@ -103,9 +108,9 @@ public class GameTree {
         }
     }
 
-    //return the score we want to maximise (AI player is white)
+    //return the score we want to maximise
     public static int evaluate(TreeNode node) {
-        if(node.getBoard().isPlayerTurn()) {
+        if(node.getBoard().isBlacksTurn()) {
             return node.getBoard().getBlackScore();
         }
         else {
